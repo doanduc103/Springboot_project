@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/css/animate.css}" rel="stylesheet">
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/bootstrap.css.map}">
+<link th:href="@{/css/media_query.css}" rel="stylesheet">
+<link th:href="@{/css/owl.theme.default.css}" rel="stylesheet">
+<link th:href="@{/css/style_1.css}" rel="stylesheet">
+<link th:href="@{/css/owl.carousel.css}" rel="stylesheet">
+<link th:href="@{/css/style_1.css.map}">
+</head>
+<body>
+	<div th:insert="user/fragments :: header3"></div>
+	<h1>Bạn đã đăng nhập thành công</h1>
+	<div sec:authorize="isAuthenticated()">
+		Welcome <span sec:authentication="name">Username</span>
+	</div>
+	<div th:insert="user/fragments :: upper-footer"></div>
+	<div th:insert="user/fragments :: footer"></div>
+	<div th:insert="user/fragments :: gototop"></div>
+</body>
+</html>

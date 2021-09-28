@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="admin/fragments_admin :: css_head_html">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- <link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+Font Awesome Icons
+<link rel="stylesheet" th:href="@{/fontawesome-free/css/all.min.css}">
+IonIcons
+<link rel="stylesheet"
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+Theme style
+<link rel="stylesheet" th:href="@{dist/css/adminlte.min.css}"> -->
+</head>
+<body>
+	<div class="wrapper">
+		<div th:replace="admin/fragments_admin :: head_menu"></div>
+		<div th:replace="admin/fragments_admin :: side-bar"></div>
+
+
+		<div th:replace="admin/fragments_admin :: admin_footer"></div>
+	</div>
+
+	<script th:src="@{plugins/jquery/jquery.min.js}"></script>
+	<!-- Bootstrap -->
+	<script th:src="@{plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- AdminLTE -->
+	<script th:src="@{dist/js/adminlte.js}"></script>
+
+	<!-- OPTIONAL SCRIPTS -->
+	<script th:src="@{plugins/chart.js/Chart.min.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script th:src="@{dist/js/demo.js}"></script>
+	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+	<script th:src="@{dist/js/pages/dashboard3.js}"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<-- create database clothes
+go
+
+use clothes
+go
+
+create table [User] (
+id int primary key identity,
+fullname nvarchar(250),
+email nvarchar(250),
+[password] nvarchar(50),
+[address] nvarchar(250),
+phone int,
+[role] nvarchar(250),
+[status] bit
+)
+go
+
+create table Post(
+id int primary key identity,
+title nvarchar(250),
+content nvarchar(250),
+[description] Ntext,
+thumbnail nvarchar(250),
+createdby nvarchar(250),
+createddate datetime,
+modifiedby nvarchar(250),
+modifieddate datetime,
+publish_at datetime,
+[status] bit
+)
+go
+
+create table category(
+id int identity primary key,
+name nvarchar(250),
+thumbnail nvarchar(250)
+)
+go
+
+create table product (
+id int identity primary key,
+name nvarchar(250),
+[description] Ntext,
+isAvailable bit,
+product_price float,
+createddate datetime,
+quantity int,
+total_sold int
+)
+go
+
+create table product_size(
+id int identity primary key,
+size nvarchar(250),
+quantity int
+)
+go
+
+create table orders(
+id int identity primary key,
+created_at datetime,
+modified_at datetime,
+note Ntext,
+product_price float,
+receiver_address nvarchar(250),
+receiver_name nvarchar(250),
+receiver_phone nvarchar(250),
+size nvarchar(250),
+[status] bit,
+total_price float
+)
+go
+
+create table finance (
+id int primary key identity,
+price float,
+create_at datetime,
+create_by nvarchar(250),
+)
+go
+
+create table ima(
+id int identity primary key,
+link nvarchar(250),
+name nvarchar(250),
+size bigint,
+[type] nvarchar(250),
+uploaded_at datetime
+)
+go -->

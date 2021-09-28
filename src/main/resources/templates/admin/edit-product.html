@@ -1,0 +1,137 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments_admin :: css_head_html">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div th:replace="admin/fragments_admin :: head_menu"></div>
+<!--<div th:replace="admin/fragments_admin :: side-bar"></div>-->
+
+
+<span style=" font-size :3em  ; color: red" th:if="${msg}">Tạo sản phẩm không thành công</span>
+<form th:action="@{/trang-chu/tao-san-pham}" th:object="${productDTO}" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="name">Tên hàng hóa</label>
+        <input class="form-control" type="text" id="name" name="name" placeholder="Nhập tên hàng hóa"
+               th:field="*{name}">
+        <span th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">Lỗi</span>
+    </div>
+    <div class="form-group">
+        <label class="col-md-4 custom-control-label" for="fileImage">Hình ảnh</label>
+        <p>
+            Main Image
+        </p>
+        <p>
+            <input class="form-control" type="file" id="fileImage" name="extraImage"
+                   accept="image/*">
+            <img id="extraImageThumbnail0" alt="Image Preview" style="width: 70px" height="70px">
+        </p>
+
+        <p>
+            Extra Image
+        </p>
+        <p>
+            <input class="form-control" type="file" id="fileImage1" name="extraImage"
+                   accept="image/*">
+            <img id="extraImageThumbnail1" alt="Image Preview" style="width: 70px" height="70px">
+        </p>
+        <p>
+            Extra Image
+        </p>
+        <p>
+            <input class="form-control" type="file" id="fileImage2" name="extraImage"
+                   accept="image/*">
+            <img id="extraImageThumbnail2" alt="Image Preview" style="width: 70px" height="70px">
+        </p>
+        <p>Extra Image</p>
+        <p>
+            <input class="form-control" type="file" id="fileImage3" name="extraImage"
+                   accept="image/*">
+            <img id="extraImageThumbnail3" alt="Image Preview" style="width: 70px" height="70px">
+        </p>
+
+    </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="description">Diễn giải mô tả</label>
+        <input class="form-control" type="text" id="description" name="description" placeholder="Nhập mô tả"
+               th:field="*{description}">
+        <span th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="product_price">Giá sản phẩm</label>
+        <input class="form-control" type="text" id="product_price" name="product_price"
+               placeholder="Nhập giá tiền sản phẩm"
+               th:field="*{product_price}">
+        <span th:if="${#fields.hasErrors('product_price')}" th:errorclass="error"
+              th:errors="*{product_price}"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="quantity">Số lượng sản phẩm nhập</label>
+        <input class="form-control" type="number" id="quantity" name="quantity" placeholder="Nhập số lượng sản phẩm"
+               th:field="*{quantity}">
+        <span th:if="${#fields.hasErrors('quantity')}" th:errorclass="error" th:errors="*{quantity}"></span>
+    </div>
+    <div class="form-group">
+        <button id="add-product-button" class="btn-primary" type="submit">Save</button>
+        <button id="reset-product-button" class="btn-default" type="reset">Reset</button>
+        <a href="/trang-chu/ao-clothes/0"> <input type="button" class="btn-block" value="Thoát"></a>
+
+    </div>
+    <div class="form-group">
+    </div>
+    <div class="form-group">
+    </div>
+</form>
+
+<div th:replace="admin/fragments_admin :: admin_footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script
+        src="https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        // $('#fileImage').change(function () {
+        //     ChangeImageThumbnail(this);
+        // });
+        //
+        // function ChangeImageThumbnail(fileInput) {
+        //     const file = fileInput.files[0];
+        //     const reader = new FileReader();
+        //     reader.onload = function (e) {
+        //         $('#ImageThumbnail').attr('src', e.target.result);
+        //     };
+        //     reader.readAsDataURL(file);
+        // }
+
+        $("input[name='extraImage']").each(function (index) {
+            $(this).change(function () {
+                showExtraImageThumbnail(this, index);
+            });
+        });
+
+        function showExtraImageThumbnail(fileInput, index) {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#extraImageThumbnail' + index).attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        };
+    });
+
+</script>
+</body>
+</html>
+

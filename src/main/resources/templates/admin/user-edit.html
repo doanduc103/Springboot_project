@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="admin/fragments_admin :: css_head_html">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="wrapper">
+    <!--    <div th:replace="admin/fragments_admin :: head_menu"></div>-->
+    <!--    <div th:replace="admin/fragments_admin :: side-bar"></div>-->
+    <div class="content">
+        <input type="hidden" th:id="${user.id}" th:value="${user.id}" class="form-control">
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="name"> Tên người dùng</label>
+                <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 30 ký tự</span>
+            </div>
+            <input type="text" class="form-control" id="name" th:value="${user.name}">
+        </div>
+
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="email"> Email</label>
+                <span class="invalid-feedback" id="invalid-feedback-email">ko được để trống</span>
+            </div>
+            <input type="email" class="form-control" id="email" th:value="${user.email}">
+        </div>
+
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="password"> Password</label>
+                <span class="invalid-feedback" id="invalid-feedback-password">password không được để trống</span>
+            </div>
+            <input type="password" class="form-control" id="password" th:value="${user.password}">
+
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--            <label class="col-md-4 control-label" for="confirmpassword">Re-password</label>-->
+        <!--            <input class="form-control" type="password" id="confirmpassword" name="confirmpassword"-->
+        <!--                   placeholder="Nhập lại password"-->
+        <!--                   th:field="*{rpassword}">-->
+        <!--            <span th:if="${#fields.hasErrors('rpassword')}" th:errorclass="error"-->
+        <!--                  th:errors="*{rpassword}">Lỗi</span>-->
+        <!--        </div>-->
+
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="phone"> Số điện thoại</label>
+                <span class="invalid-feedback"
+                      id="invalid-feedback-phone">sdt không được để trống, sdt phải có 10 số</span>
+            </div>
+            <input type="tel" class="form-control" id="phone" th:value="${user.phone}">
+        </div>
+
+        <div class="form-group row">
+            <label for="status" class="required-label">Trạng thái</label>
+            <select class="form-control" id="status">
+                <option value="true">Mở bán</option>
+                <option value="false">Không bán</option>
+            </select>
+        </div>
+
+        <div class="form-group row">
+            <div class="form-group row">
+                <a href="/trang-chu/user-custom/0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </a>
+
+                <button type="submit" id="editBtn" value="Cập nhập tài khoản">Cập nhập tài khoản</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="admin/fragments_admin :: admin_footer"></div>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script
+        src="https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js"></script>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE -->
+<script th:src="@{/dist/js/adminlte.js}"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<!--    <script th:src="@{/plugins/chart.js/Chart.min.js}"></script>-->
+<!-- AdminLTE for demo purposes -->
+<!--    <script th:src="@{/dist/js/demo.js}"></script>-->
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!--    <script th:src="@{/dist/js/pages/dashboard3.js}"></script>-->
+<script type="text/javascript">
+    function show() {
+
+        var password = document.getElementById("password");
+        var confirmpassword = document.getElementById("confirmpassword");
+
+        if (password.type === "password") {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+
+        if (confirmpassword.type === "password") {
+            confirmpassword.type = "text";
+        } else {
+            confirmpassword.type = "password";
+        }
+
+    }
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('button.editBtn').on('click', function (event) {
+            event.preventDefault();
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var phone = $('#phone').val();
+            var status = $('#status').val();
+            // var role = $('role').val();
+            if (name.length == 0 || name.length > 30) {
+                $('#invalid-feedback-name').show();
+
+            }
+            if (email.length == 0) {
+                $('#invalid-feedback-email').show();
+
+            }
+            if (password.length == 0) {
+                $('#invalid-feedback-password').show();
+            }
+            if (phone.length < 10 || phone.length > 10) {
+                $('#invalid-feedback-phone').show();
+            }
+            var id = $('#id').val();
+            var Edit = {
+                name: name,
+                email: email,
+                password: password,
+                phone: phone,
+                status: status
+            };
+            $.ajax({
+                url: "/api/user/" + id,
+                type: "PUT",
+                contentType: "application/json; charset=UTF-8 ",
+                data: JSON.stringify(Edit),
+                success: function (data) {
+                    alert("OK");
+                    name.val(data.name);
+                    email.val(data.email);
+                    password.val(data.password);
+                    phone.val(data.phone);
+                    status.val(data.status);
+
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+    })
+</script>
+</body>
+</html>

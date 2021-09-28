@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="admin/fragments_admin :: css_head_html">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="wrapper">
+    <!--    <div th:replace="admin/fragments_admin :: head_menu"></div>-->
+    <!--    <div th:replace="admin/fragments_admin :: side-bar"></div>-->
+
+    <form id="FormSubmit">
+        <div class="form-group row">
+            <input type="hidden" class="form-control" name="name" id="id">
+        </div>
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="name"> Tên người dùng</label>
+                <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 30 ký tự</span>
+            </div>
+            <input type="text" class="form-control" name="name" id="name">
+        </div>
+
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="email"> Email</label><br>
+                <span class="invalid-feedback" id="invalid-feedback-email">ko được để trống</span>
+            </div>
+            <input type="email" class="form-control" name="email" id="email">
+        </div>
+
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="password"> Password</label><br>
+                <span class="invalid-feedback" id="invalid-feedback-password">password không được để trống</span>
+            </div>
+            <input type="password" class="form-control" name="password" id="password">
+
+        </div>
+        <div class="form-group row">
+            <div>
+                <label class="required-label" for="phone"> Số điện thoại</label> <br>
+                <span class="invalid-feedback"
+                      id="invalid-feedback-phone">sdt không được để trống, sdt phải có 10 số</span>
+            </div>
+            <input type="tel" class="form-control" name="phone" id="phone">
+        </div>
+
+        <div class="form-group row">
+            <label for="status" class="required-label">Trạng thái</label>
+            <select class="form-control" name="status" id="status">
+                <option value="true">Hoạt động</option>
+                <option value="false">Không hoạt động</option>
+            </select>
+        </div>
+
+        <div class="form-group row">
+            <a href="/trang-chu/user-custom/0">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </a>
+
+            <button id="addBtn" class="btn btn-secondary" style="padding-left: 10px" value="">Tạo sản phẩm</button>
+        </div>
+
+    </form>
+
+</div>
+<!--Jquerry online-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--jquerry download-->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#addBtn').click(function () {
+            var UserForm = {};
+            var UserID = $('#id').val();
+            UserForm.name = $('#name').val();
+            UserForm.email = $('#email').val();
+            UserForm.password = $('#password').val();
+            UserForm.phone = $('#phone').val();
+            // UserForm.status = $('#status').val();
+            // var role = $('role').val();
+            //
+            if (UserForm.name.length == 0 || name.length > 30) {
+                $('#invalid-feedback-name').show();
+
+            }
+            if (UserForm.email.length == 0) {
+                $('#invalid-feedback-email').show();
+
+            }
+            if (UserForm.password.length == 0) {
+                $('#invalid-feedback-password').show();
+            }
+            if (UserForm.phone.length < 10 || UserForm.phone.length > 10) {
+                $('#invalid-feedback-phone').show();
+            }
+            $.ajax({
+                url: 'http://localhost:6789/api/create-user',
+                type: 'POST',
+                data: JSON.stringify(UserForm),
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    alert("Tạo sản phẩm thành công"),
+                        setTimeout(function () {
+                            window.location.href = "/trang-chu/user-custom/0";
+                        }, 1000);
+                },
+                error: function (data) {
+                    alert("Tạo sản phẩm không thành công");
+                    console.log('err');
+                }
+            });
+        });
+    });
+
+
+    function show() {
+
+        var password = document.getElementById("passwordUser");
+        var confirmpassword = document.getElementById("confirmpassword");
+
+        if (password.type === "password") {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+
+        if (confirmpassword.type === "password") {
+            confirmpassword.type = "text";
+        } else {
+            confirmpassword.type = "password";
+        }
+    };
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="admin/fragments_admin :: css_head_html">
+    <meta charset="UTF-8">
+
+    <title>Insert title here</title>
+</head>
+<body>
+<div class="wrapper">
+    <div th:replace="admin/fragments_admin :: head_menu"></div>
+    <!--    <div th:replace="admin/fragments_admin :: side-bar"></div>-->
+
+    <div class="content">
+        <!--        <span sec:authentication="principal.authorities">Roles</span>-->
+        <a href="/trang-chu/add-user">Thêm</a>
+        <input type="text" id="search" placeholder="Keyword">
+        <button id="searchBtn">Search</button>
+
+        </ul>
+        <table border="1" align="center">
+            <tr>
+                <td>ID</td>
+                <td>Photo</td>
+                <td>Email</td>
+                <td>name</td>
+                <td>address</td>
+                <td>password</td>
+                <td>phone</td>
+                <td>created_at</td>
+                <td>Trạng thái hoạt động</td>
+                <td>Role</td>
+            </tr>
+            <tr
+                    th:each="user : ${user}" th:id="${user.id}">
+                <td><span th:text="${user.id}">ID</span></td>
+                <td><span id="photo" th:text="${user.photo}">Photo</span></td>
+                <td><span id="email" th:text="${user.email}">Email</span></td>
+                <td><span id="name" th:text="${user.name}">Name</span></td>
+                <td><span id="address" th:text="${user.address}">Địa chỉ</span></td>
+                <td><span id="password" th:text="${user.password}">Password</span></td>
+                <td><span id="phone" th:text="${user.phone}">Phone</span></td>
+                <td><span id="created_at" th:text="${user.created_at}">Ngày tạo tài khoản</span></td>
+                <td><span id="status" th:text="${user.status}">Trạng thái hoạt động</span></td>
+                <td><span id="role" th:text="${user.roles}">Role</span></td>
+                <td>
+                    <a href="/trang-chu/user-edit">
+                        <button id="editBtn" class="btn btn-secondary mr-2">Sửa</button>
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-secondary mr-2 deleteUser">
+                        Xóa
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="align-items: center">
+                <li class="page-item"><span>Total item : [[${totalItem}]]</span></li>
+                <li style="padding-left: 10px" class="page-item">
+                    <span>Page [[${currentPage}]] of [[${TotalPage}]]</span>
+                <li style="padding-left: 10px" th:if="${currentPage > 1}" class="page-item"><a class="page-link"
+                                                                                               th:href="@{'/trang-chu/user-custom/0'}">First</a>
+                </li>
+                <li th:if="${currentPage != 0}" class="page-item"><a class="page-link"
+                                                                     th:href="@{'/trang-chu/user-custom/' + ${currentPage -1}}"
+                                                                     href="#">Previous</a>
+                </li>
+                <li
+                        th:each="i : ${#numbers.sequence(1,TotalPage)}" class="page-item"><a
+                        class="page-link" th:href="@{'/trang-chu/user-custom/' + ${i-1}}" href="#"><span
+                        th:text="${i}"></span></a></li>
+                <li th:if="${currentPage + 1 != TotalPage} " class="page-item"><a
+                        class="page-link"
+                        th:href="@{'/trang-chu/user-custom/' + ${currentPage + 1}}"
+                        href="
+                                                                                  #">Next</a></li>
+                <li th:if="${currentPage < TotalPage}" class="page-item"><a class="page-link"
+                                                                            th:href="@{'/trang-chu/user-custom/' + ${TotalPage-1}}">Last</a>
+                </li>
+            </ul>
+        </nav>
+
+
+        </span>
+
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<div th:replace="admin/fragments_admin :: admin_footer"></div>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script
+        src="https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js"></script>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('button.deleteUser').click(function () {
+            var id = $(this).parent().parent().attr('id');
+            $(this).parent().parent().hide(400);
+            $.ajax({
+                url: "http://localhost:6789/api/user/" + id,
+                type: "DELETE",
+                contentType: "application/json; charset=UTF-8",
+                success: function () {
+                    alert("Xóa tài khoản id " + id + " thành công");
+                    setTimeout(function () {
+                        location.href = "/trang-chu/user-custom/0";
+                    }, 1000);
+                },
+                error: function (xhr) {
+                    alert("Xoa k thanh cong");
+                    console.log(xhr);
+                },
+            });
+        });
+    });
+</script>
+</body>
+</html>
