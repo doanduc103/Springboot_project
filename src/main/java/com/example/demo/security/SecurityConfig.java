@@ -18,6 +18,10 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -31,25 +35,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
-
     @Autowired
-    private JwTUserDetailService jwtUserDetailService;
+    private DataSource dataSource;
 
     @Bean
     public PasswordEncoder PasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//	@Bean
-//	@Primary
-//	public UserDetailsService userDetailService() {
-//		return new JwTUserDetailService();
-//	}
+    @Bean
+    public UserDetailsService userDetailService() {
+        return new JwTUserDetailService();
+    }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(jwtUserDetailService);
+        authProvider.setUserDetailsService(userDetailService());
         authProvider.setPasswordEncoder(PasswordEncoder());
 
         return authProvider;
@@ -93,6 +95,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .deleteCookies("JWT_TOKEN")
                 .logoutSuccessUrl("/index").permitAll()
                 .and()
+                .rememberMe()
+//                .key("uniqueAndSecret").tokenValiditySeconds(24 * 60 * 60).
+                .tokenRepository(persistentTokenRepository()).
+                userDetailsService(userDetailService())
+                .and()
                 .exceptionHandling().accessDeniedPage("/403");
 //                .authenticationEntryPoint(authenticationEntryPoint)
 //                .and()
@@ -104,6 +111,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Không sử dụng session lưu lại trạng thái của principal
 
 
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
     }
 
     @Override

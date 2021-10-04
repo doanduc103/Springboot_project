@@ -25,7 +25,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private JwTTokenUtil jwtTokenUtil;
 
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private JwTUserDetailService userDetailsService;
 
 	private static String HEADER = "Authorization";
 
