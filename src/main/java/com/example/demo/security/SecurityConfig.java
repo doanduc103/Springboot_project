@@ -96,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/index").permitAll()
                 .and()
                 .rememberMe()
-//                .key("uniqueAndSecret").tokenValiditySeconds(24 * 60 * 60).
+//                .key("uniqueAndSecret").tokenValiditySeconds(24 * 60 * 60)
                 .tokenRepository(persistentTokenRepository()).
                 userDetailsService(userDetailService())
                 .and()
