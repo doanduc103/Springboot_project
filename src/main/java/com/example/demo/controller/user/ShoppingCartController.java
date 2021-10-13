@@ -25,12 +25,12 @@ public class ShoppingCartController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/tai-khoan/shopping-carts")
-    public String ShoppingCarts(@AuthenticationPrincipal Authentication authentication, Model model) {
-        User user = userService.GetCurrentlyLogged(authentication);
-        List<CartItem> cartItemList = cartRepository.findByUser(user);
-        model.addAttribute("cartItems", cartItemList);
-        model.addAttribute("PageTittle","Shopping Cart");
-        return "user/ShoppingCarts";
-    }
+//    @GetMapping("/tai-khoan/shopping-carts")
+//    public String ShoppingCarts(@AuthenticationPrincipal Authentication authentication, Model model) {
+//        User user = userService.GetCurrentlyLogged(authentication);
+//        List<CartItem> cartItemList = cartRepository.findByUser(user);
+//        model.addAttribute("cartItems", cartItemList);
+//        model.addAttribute("PageTittle","Shopping Cart");
+//        return "user/ShoppingCarts";
+//    }
 }

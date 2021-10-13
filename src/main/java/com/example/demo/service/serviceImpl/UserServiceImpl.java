@@ -113,17 +113,17 @@ public class UserServiceImpl implements UserService {
         return roleRepository.findAll();
     }
 
-    @Override
-    public String GetCurrentlyLogged(Authentication authentication) {
-        if (authentication == null) return null;
-        User user = null;
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof UserDetails) {
-            user = ((UserDetails) principal).getUsername();
-        } else {
-            user = principal.toString();
-        }
-
-        return user;
-    }
+//    @Override
+//    public String GetCurrentlyLogged(Authentication authentication) {
+//        if (authentication == null) return null;
+//        User user = null;
+//        Object principal = authentication.getPrincipal();
+//        if (principal instanceof UserDetails) {
+//            user = ((UserDetails) principal).getUsername();
+//        } else {
+//            user = principal.toString();
+//        }
+//
+//        return user;
+//    }
 }

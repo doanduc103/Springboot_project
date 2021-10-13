@@ -33,5 +33,5 @@ public interface UserService {
 
 	List<Role> findAll();
 
-	String GetCurrentlyLogged(Authentication authentication);
+//	String GetCurrentlyLogged(Authentication authentication);
 }
