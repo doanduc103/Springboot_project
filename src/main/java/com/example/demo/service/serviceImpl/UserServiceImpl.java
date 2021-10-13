@@ -1,6 +1,5 @@
 package com.example.demo.service.serviceImpl;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 import com.example.demo.entity.Role;
@@ -12,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.User;
@@ -110,5 +111,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Role> findAll() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public String GetCurrentlyLogged(Authentication authentication) {
+        if (authentication == null) return null;
+        User user = null;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            user = ((UserDetails) principal).getUsername();
+        } else {
+            user = principal.toString();
+        }
+
+        return user;
     }
 }

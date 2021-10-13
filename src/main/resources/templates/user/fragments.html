@@ -157,7 +157,7 @@
                             <a class="dropdown-item" href="/login" sec:authorize="!isAuthenticated()">Đăng Nhập</a>
                             <a class="dropdown-item" sec:authorize="isAuthenticated()">Welcome
                                 <span sec:authentication="name"></span></a>
-                            <a class="dropdown-item" href="/ShoppingCarts" sec:authorize="isAuthenticated()">Cart</a>
+                            <a class="dropdown-item" href="/tai-khoan/shopping-carts" sec:authorize="isAuthenticated()">Cart</a>
                             <form class="dropdown-item" th:action="@{/logout}" method="post">
                                 <input sec:authorize="isAuthenticated()" type="submit" value="Logout"
                                        style="background:none; border-width:0px; color:blue; text-decoration:underline;"/>

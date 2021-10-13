@@ -34,10 +34,11 @@
                 </div>
             </div>
             <div class="row border-top border-bottom">
-                <div class="row main align-items-center">
-                    <div class="col-2"><img th:src="@{product.image}">Image</div>
+                <th:block th:each="item, status : ${cartItems}"/>
+                <div class="row main align-items-center" >
+                    <div class="col-2">[[${status.count}]]<img th:src="@{product.image}">Image</div>
                     <div class="col">
-                        <div class="row text-muted">Shirt</div>
+                        <div class="row text-muted">[[${product.name}]]</div>
                         <div class="row">Cotton T-shirt</div>
                     </div>
                     <div class="col"><a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a></div>

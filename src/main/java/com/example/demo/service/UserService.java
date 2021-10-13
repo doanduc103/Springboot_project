@@ -7,6 +7,7 @@ import com.example.demo.entity.Role;
 import javassist.bytecode.DuplicateMemberException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.User;
@@ -31,4 +32,6 @@ public interface UserService {
 	User deleteUser(Integer id);
 
 	List<Role> findAll();
+
+	String GetCurrentlyLogged(Authentication authentication);
 }
