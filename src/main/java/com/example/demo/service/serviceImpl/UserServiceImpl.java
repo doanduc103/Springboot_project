@@ -79,22 +79,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(UserDTO userDTO, Integer id) throws DuplicateMemberException {
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            if (user.getId() == id) {
-                if (user.getEmail().equals(userDTO.getEmail())) {
-                    throw new DuplicateMemberException("Email mới đã có người đăng ký");
-                }
-            }
+//        List<User> users = userRepository.findAll();
+//        for (User user : users) {
+
+//            if (user.getId() == id) {
+//                if (user.getEmail().equals(userDTO.getEmail())) {
+//                    throw new DuplicateMemberException("Email mới đã có người đăng ký");
+//                }
+//            }
+//        }
+        Optional<User> users = userRepository.findById(id);
+        if (users.isPresent()) {
+            User user = users.get();
+            user.setEmail(userDTO.getEmail());
+            user.setName(userDTO.getName());
+            String pass = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(12));
+            user.setPassword(pass);
+            user.setPhone(userDTO.getPhone());
+            userRepository.save(user);
+            return user;
+        } else {
+            throw new NotFoundException("Không tìm thấy id " + id);
         }
-        User user = new User();
-        user.setEmail(userDTO.getEmail());
-        user.setName(userDTO.getName());
-        String pass = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(12));
-        user.setPassword(pass);
-        user.setPhone(userDTO.getPhone());
-        userRepository.save(user);
-        return user;
     }
 
     @Override

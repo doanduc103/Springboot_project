@@ -17,7 +17,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return "user/error";
     }
 
     @RequestMapping("/error")
@@ -30,15 +30,15 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
             Integer statusCode = Integer.valueOf(status.toString());
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 pageTittle = "Page not found";
-                errorPage = "error/404";
+                errorPage = "user/error/404";
                 LOGGER.error("Error 404");
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 pageTittle = "Internal Server Error";
-                errorPage = "error/500";
+                errorPage = "user/error/500";
                 LOGGER.error("Error 500");
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 pageTittle = "Forbiden Error";
-                errorPage = "error/403";
+                errorPage = "user/error/403";
                 LOGGER.error("Error 403");
             }
         }

@@ -110,19 +110,6 @@
 
 <script>
     $(document).ready(function () {
-        // $('#fileImage').change(function () {
-        //     ChangeImageThumbnail(this);
-        // });
-        //
-        // function ChangeImageThumbnail(fileInput) {
-        //     const file = fileInput.files[0];
-        //     const reader = new FileReader();
-        //     reader.onload = function (e) {
-        //         $('#ImageThumbnail').attr('src', e.target.result);
-        //     };
-        //     reader.readAsDataURL(file);
-        // }
-
         $("input[name='extraImage']").each(function (index) {
             $(this).change(function () {
                 showExtraImageThumbnail(this, index);

@@ -76,7 +76,6 @@
     $(document).ready(function () {
         $('#addBtn').click(function () {
             var UserForm = {};
-            var UserID = $('#id').val();
             UserForm.name = $('#name').val();
             UserForm.email = $('#email').val();
             UserForm.password = $('#password').val();
@@ -102,13 +101,12 @@
                 url: 'http://localhost:6789/api/create-user',
                 type: 'POST',
                 data: JSON.stringify(UserForm),
-                dataType: 'json',
                 contentType: "application/json; charset=utf-8",
                 success: function () {
                     alert("Tạo sản phẩm thành công"),
                         setTimeout(function () {
                             window.location.href = "/trang-chu/user-custom/0";
-                        }, 1000);
+                        }, 2000);
                 },
                 error: function (data) {
                     alert("Tạo sản phẩm không thành công");

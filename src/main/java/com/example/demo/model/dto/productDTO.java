@@ -26,7 +26,7 @@ public class productDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    public Long id;
     @NotBlank(message = "Tên hàng hóa không được để trống")
     public String name;
     @NotBlank(message = "Không được để trống")

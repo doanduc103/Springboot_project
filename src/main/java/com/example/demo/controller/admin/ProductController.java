@@ -56,6 +56,7 @@ public class ProductController {
         model.addAttribute("products", products);
         return "admin/ao-clothes";
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/trang-chu/tao-san-pham")
     public String CreateProduct(Model model, productDTO productDTO) {
@@ -63,6 +64,7 @@ public class ProductController {
         model.addAttribute("PageTittle", "Thêm mới sản phẩm");
         return "admin/tao-san-pham";
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/trang-chu/tao-san-pham")
     public String CreateProduct(@Valid productDTO productDTO, BindingResult br,
@@ -103,14 +105,13 @@ public class ProductController {
         return "redirect:/trang-chu/ao-clothes/0";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/trang-chu/edit-san-pham/{id}")
     public String UpdateProduct(Model model, productDTO productDTO, @PathVariable(name = "id") Long id) {
         Optional<product> EditProduct = productRepository.findById(id);
         if (EditProduct.isPresent()) {
             model.addAttribute("productDTO", EditProduct);
         } else {
-            model.addAttribute("productDTO", productDTO);
+            model.addAttribute("productDTO",productDTO);
         }
         return "admin/tao-san-pham";
     }

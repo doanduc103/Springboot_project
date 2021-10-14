@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://wwww.thymeleaf.org">
 <head th:replace="admin/fragments_admin :: css_head_html">
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,7 +9,7 @@
     <!--    <div th:replace="admin/fragments_admin :: head_menu"></div>-->
     <!--    <div th:replace="admin/fragments_admin :: side-bar"></div>-->
     <div class="content">
-        <input type="hidden" th:id="${user.id}" th:value="${user.id}" class="form-control">
+        <input type="hidden" th:id="${user.id}"  th:value="${user.id}" class="form-control">
         <div class="form-group row">
             <div>
                 <label class="required-label" for="name"> Tên người dùng</label>
@@ -147,8 +147,8 @@
                 status: status
             };
             $.ajax({
-                url: "/api/user/" + id,
-                type: "PUT",
+                url: "http://localhost:6789/api/user/" + id,
+                type: "POST",
                 contentType: "application/json; charset=UTF-8 ",
                 data: JSON.stringify(Edit),
                 success: function (data) {

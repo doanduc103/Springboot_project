@@ -32,11 +32,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public product createProduct(productDTO productDTO) {
-        product product = productRepository.findByNameProduct(productDTO.getName());
-        if (product != null) {
-            throw new NotFoundException("Sản phẩm đã tồn tại");
-        }
-        product = ProductMapper.toProduct(productDTO);
+//        product product = productRepository.findByNameProduct(productDTO.getName());
+
+       product product = ProductMapper.toProduct(productDTO);
         productRepository.save(product);
         return product;
     }

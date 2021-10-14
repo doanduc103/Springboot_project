@@ -45,6 +45,7 @@ public class UserControllerAPI {
 
     @Autowired
     UserRepository userRepository;
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/trang-chu/user-view/{page}")
     public ResponseEntity<?> GetListUser(@PathVariable("page") Integer page, Model model) {
@@ -57,22 +58,28 @@ public class UserControllerAPI {
         model.addAttribute("totalItem", result.getTotalElements());
         return ResponseEntity.ok(result);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
+    @GetMapping("/api/user/{id}")
+    public ResponseEntity<?> getUserbyID(Model model, @PathVariable(name = "id") Integer id) {
+        userService.findById(id);
+        return ResponseEntity.ok("Ok");
+    }
+
     @PostMapping("/api/create-user")
     public ResponseEntity<?> CreateUser(@Valid @RequestBody UserDTO userDTO, Model model) {
         userService.createUser(userDTO);
 //        model.addAttribute("user",user);
         return ResponseEntity.ok("tạo user thành công");
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PutMapping("/api/user/{id}")
     public @ResponseBody
     ResponseEntity<?> EditUser(UserDTO userDTO, @PathVariable(name = "id") Integer id, Model model) throws DuplicateMemberException {
-        User user = userService.updateUser(userDTO, id);
-        model.addAttribute("user", user);
+        userService.updateUser(userDTO, id);
+        System.out.println(id);
         return ResponseEntity.ok("Cập nhập thành công");
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping(value = "/api/user/{id}")
     public ResponseEntity<?> DeleteUser(@PathVariable(name = "id") Integer id) {
         try {
@@ -84,8 +91,10 @@ public class UserControllerAPI {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping(value = "/authentication")
-    public @ResponseBody ResponseEntity<?> login(@Valid @RequestBody AuthenticateReq authenticateReq) throws Exception {
+    public @ResponseBody
+    ResponseEntity<?> login(@Valid @RequestBody AuthenticateReq authenticateReq) throws Exception {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticateReq.getEmail(), authenticateReq.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
