@@ -59,7 +59,7 @@ public class UserControllerAPI {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/api/user/{id}")
+    @PutMapping("/api/user/{id}")
     public ResponseEntity<?> getUserbyID(Model model, @PathVariable(name = "id") Integer id) {
         userService.findById(id);
         return ResponseEntity.ok("Ok");
@@ -72,7 +72,7 @@ public class UserControllerAPI {
         return ResponseEntity.ok("tạo user thành công");
     }
 
-    @PutMapping("/api/user/{id}")
+    @PutMapping("/api/users/{id}")
     public @ResponseBody
     ResponseEntity<?> EditUser(UserDTO userDTO, @PathVariable(name = "id") Integer id, Model model) throws DuplicateMemberException {
         userService.updateUser(userDTO, id);

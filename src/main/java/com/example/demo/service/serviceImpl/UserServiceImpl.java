@@ -2,6 +2,7 @@ package com.example.demo.service.serviceImpl;
 
 import java.util.*;
 
+import com.example.demo.entity.AuthenticationProvider;
 import com.example.demo.entity.Role;
 import com.example.demo.repository.RoleRepository;
 import javassist.bytecode.DuplicateMemberException;
@@ -79,15 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(UserDTO userDTO, Integer id) throws DuplicateMemberException {
-//        List<User> users = userRepository.findAll();
-//        for (User user : users) {
 
-//            if (user.getId() == id) {
-//                if (user.getEmail().equals(userDTO.getEmail())) {
-//                    throw new DuplicateMemberException("Email mới đã có người đăng ký");
-//                }
-//            }
-//        }
         Optional<User> users = userRepository.findById(id);
         if (users.isPresent()) {
             User user = users.get();
@@ -119,6 +112,39 @@ public class UserServiceImpl implements UserService {
         return roleRepository.findAll();
     }
 
+    @Override
+    public void createUserAfterLoginOauth2(String email,String name, AuthenticationProvider provider) {
+            User user = new User();
+            user.setEmail(email);
+            user.setName(name);
+            user.setAuthenticationProvider(provider);
+            user.setPassword(user.password);
+            user.setCreated_at(new Date());
+            Role role = new Role();
+            role.setName("USER");
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
+
+
+
+    @Override
+    public void updateUserAfterLoginOauth2(String email, String name, AuthenticationProvider google) {
+        User user = userRepository.findByEmail(email);
+        user.setName(name);
+        user.setAuthenticationProvider(google);
+        Role role = new Role();
+        role.setName("USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
+
+}
+
 //    @Override
 //    public String GetCurrentlyLogged(Authentication authentication) {
 //        if (authentication == null) return null;
@@ -132,4 +158,4 @@ public class UserServiceImpl implements UserService {
 //
 //        return user;
 //    }
-}
+//}

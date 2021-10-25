@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.entity.AuthenticationProvider;
 import com.example.demo.entity.Role;
 import javassist.bytecode.DuplicateMemberException;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,10 @@ public interface UserService {
 	User deleteUser(Integer id);
 
 	List<Role> findAll();
+
+    void createUserAfterLoginOauth2(String email,String name, AuthenticationProvider provider);
+
+	void updateUserAfterLoginOauth2(String email, String name, AuthenticationProvider google);
 
 //	String GetCurrentlyLogged(Authentication authentication);
 }

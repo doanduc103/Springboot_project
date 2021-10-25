@@ -1,9 +1,13 @@
 package com.example.demo.security;
 
+import com.example.demo.security.oauth.CustomOAuth2UserService;
+import com.example.demo.security.oauth.CustomOauth2User;
+import com.example.demo.security.oauth.Oauth2LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -79,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/trang-chu/**").hasAuthority("ADMIN")
                 .antMatchers("/tai-khoan/**").hasAuthority("USER")
                 .anyRequest().permitAll()
@@ -88,6 +93,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler).failureUrl("/login?error=true")
+                .and()
+                .oauth2Login().loginPage("/login")
+                .userInfoEndpoint().userService(customOAuth2UserService)
+                .and().successHandler(oauth2LoginSuccessHandler)
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
@@ -122,6 +131,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**");
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**","/images/**");
     }
+
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private Oauth2LoginSuccessHandler oauth2LoginSuccessHandler;
 }
