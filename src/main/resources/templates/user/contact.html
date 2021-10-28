@@ -1,21 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="html_head">
-
+<head th:replace="user/fragments :: html_head">
     <meta charset="UTF-8">
-    <title>Title</title>
-
-    <!--Bootsrap 4 CDN-->
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
-
-    <!--Fontawesome CDN-->
-    <!--    <link rel="stylesheet"-->
-    <!--          href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"-->
-    <!--          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"-->
-    <!--          crossorigin="anonymous">-->
+    <title th:fragment="clothes">StreetWear clothes</title>
     <link th:href="@{/css/animate.css}" rel="stylesheet">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/bootstrap.css.map}">
@@ -24,36 +11,47 @@
     <link th:href="@{/css/style_1.css}" rel="stylesheet">
     <link th:href="@{/css/owl.carousel.css}" rel="stylesheet">
     <link th:href="@{/css/style_1.css.map}">
-    <!--Custom styles-->
-    <link rel="stylesheet" type="text/css" th:href="@{/login_css.css}">
+
 </head>
 <body>
 <div th:insert="user/fragments :: header"></div>
 <div th:insert="user/fragments :: header1"></div>
 <div th:insert="user/fragments :: header3"></div>
 
-<form action="#" th:action="@{/register}" th:object="${user}" method="post" id="insert-user">
-    <input type="hidden" th:field="${id}">
-    <div class="form-control">
-        <span class="" id="full_name">Tên người dùng</span>
-        <input type="text" th:field="*{name}">
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+<form action="#" th:href="@{/contact}" method="post">
+    <div class="form-group row">
+        <label for="fullname" class="col-sm-4 col-form-label">Tên người gửi</label>
+        <div>
+            <input type="text" id="fullname" class="form-control" required minlength="3" maxlength="45">
+        </div>
     </div>
-    <div class="form-control">
-        <span class="" id="email">Tên người dùng</span>
-        <input type="text" th:field="*{email}">
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    <div class="form-group row">
+        <label for="email" class="col-sm-4 col-form-label">E-Mail</label>
+        <div>
+            <input type="Email" id="email" class="form-control" required>
+        </div>
     </div>
-    <div class="form-control">
-        <span class="" id="password">Tên người dùng</span>
-        <input type="text" th:field="*{password}">
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    <div class="form-group row">
+        <label for="subject" class="col-sm-4 col-form-label">Chủ đề</label>
+        <div>
+            <input type="text" id="subject" class="form-control" required minlength="3" maxlength="45">
+        </div>
     </div>
-    <div class="form-control">
-        <span class="" id="phone">Tên người dùng</span>
-        <input type="text" th:field="*{phone}">
-        <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+    <div class="form-group row">
+        <label for="content" class="col-sm-4 col-form-label">Nội dung</label>
+        <div>
+            <input type="text" id="content" class="form-control" required minlength="3" maxlength="45">
+        </div>
     </div>
+    <div class="form-group row">
+        <label for="attachment" class="col-sm-4 col-form-label">File đính kèm</label>
+        <div>
+            <input type="file" id="attachment" class="form-control" required minlength="3" maxlength="45">
+        </div>
+    </div>
+<div class="text-center">
+    <input type="submit" value="Send" class="btn btn-primary">
+</div>
 </form>
 
 <div th:insert="user/fragments :: upper-footer"></div>
