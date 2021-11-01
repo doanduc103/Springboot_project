@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/trang-chu/**").hasAuthority("ADMIN")
-                .antMatchers("/tai-khoan/**").hasAuthority("USER")
+                .antMatchers("/tai-khoan/**","/contact/**").hasAuthority("USER")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

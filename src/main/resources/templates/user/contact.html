@@ -18,35 +18,35 @@
 <div th:insert="user/fragments :: header1"></div>
 <div th:insert="user/fragments :: header3"></div>
 
-<form action="#" th:href="@{/contact}" method="post">
+<form action="#" th:href="@{/contact}" method="post" enctype="multipart/form-data">
     <div class="form-group row">
-        <label for="fullname" class="col-sm-4 col-form-label">Tên người gửi</label>
+        <label for="full_name" class="col-sm-4 col-form-label">Tên người gửi</label>
         <div>
-            <input type="text" id="fullname" class="form-control" required minlength="3" maxlength="45">
+            <input type="text" id="full_name" name="full_name" class="form-control" required minlength="3" maxlength="45">
         </div>
     </div>
     <div class="form-group row">
         <label for="email" class="col-sm-4 col-form-label">E-Mail</label>
         <div>
-            <input type="Email" id="email" class="form-control" required>
+            <input type="Email" id="email" name="email" class="form-control" required>
         </div>
     </div>
     <div class="form-group row">
         <label for="subject" class="col-sm-4 col-form-label">Chủ đề</label>
         <div>
-            <input type="text" id="subject" class="form-control" required minlength="3" maxlength="45">
+            <input type="text" id="subject" name="subject" class="form-control" required minlength="3" maxlength="45">
         </div>
     </div>
     <div class="form-group row">
         <label for="content" class="col-sm-4 col-form-label">Nội dung</label>
         <div>
-            <input type="text" id="content" class="form-control" required minlength="3" maxlength="45">
+            <input type="text" id="content" name="content" class="form-control" required minlength="3" maxlength="45">
         </div>
     </div>
     <div class="form-group row">
-        <label for="attachment" class="col-sm-4 col-form-label">File đính kèm</label>
+        <label class="col-sm-4 col-form-label">File đính kèm</label>
         <div>
-            <input type="file" id="attachment" class="form-control" required minlength="3" maxlength="45">
+            <input type="file" name="attachment" class="form-control">
         </div>
     </div>
 <div class="text-center">

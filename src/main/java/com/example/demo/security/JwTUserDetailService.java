@@ -14,7 +14,7 @@ import com.example.demo.repository.UserRepository;
 
 @Service
 public class JwTUserDetailService implements UserDetailsService {
-private static final Logger LOGGER = LoggerFactory.getLogger(JwTUserDetailService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwTUserDetailService.class);
     @Autowired
     private UserRepository repo;
 
@@ -29,7 +29,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JwTUserDetailServic
             LOGGER.error("Username not found !");
             throw new UsernameNotFoundException("email không tồn tại" + user.getEmail());
         }
-LOGGER.warn("We are testing the spring boot");
+        LOGGER.warn("We are testing the spring boot");
         LOGGER.info("Authentication success !");
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
     }
