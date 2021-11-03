@@ -1,6 +1,5 @@
 package com.example.demo.service.serviceImpl;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     public product createProduct(productDTO productDTO) {
 //        product product = productRepository.findByNameProduct(productDTO.getName());
 
-       product product = ProductMapper.toProduct(productDTO);
+        product product = ProductMapper.toProduct(productDTO);
         productRepository.save(product);
         return product;
     }
@@ -84,4 +83,13 @@ public class ProductServiceImpl implements ProductService {
         }
         throw new NotFoundException("Không tìm thấy ID Product");
     }
+
+    @Override
+    public List<product> Search(String keyword) {
+        if (keyword != null) {
+            return productRepository.SearchKeyword(keyword);
+        }
+        return productRepository.findAll();
+    }
+
 }

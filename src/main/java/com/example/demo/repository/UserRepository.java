@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query( "SELECT u FROM User u WHERE u.email= :email and u.password= :password")
 	public User FindUserByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
+	@Query("select u from User u where concat(u.name,u.email) like %?1%")
+	public List<User> Search (String keyword);
 }

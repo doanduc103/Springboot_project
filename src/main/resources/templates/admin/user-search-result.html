@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments_admin :: css_head_html">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="admin/fragments_admin :: head_menu"></div>
+<h2 style="align-items: center"> Search for '[[${keyword}]]'</h2>
+
+<table border="1" align="center">
+    <tr>
+        <td>ID</td>
+        <td>Photo</td>
+        <td>Email</td>
+        <td>name</td>
+        <td>address</td>
+        <td>password</td>
+        <td>phone</td>
+        <td>created_at</td>
+        <td>Trạng thái hoạt động</td>
+        <td>Role</td>
+    </tr>
+    <tr
+            th:each="user : ${ListUserSearch}">
+        <td><span th:text="${user.id}">ID</span></td>
+        <td><span id="photo" th:text="${user.photo}">Photo</span></td>
+        <td><span id="email" th:text="${user.email}">Email</span></td>
+        <td><span id="name" th:text="${user.name}">Name</span></td>
+        <td><span id="address" th:text="${user.address}">Địa chỉ</span></td>
+        <td><span id="password" th:text="${user.password}">Password</span></td>
+        <td><span id="phone" th:text="${user.phone}">Phone</span></td>
+        <td><span id="created_at" th:text="${user.created_at}">Ngày tạo tài khoản</span></td>
+        <td><span id="status" th:text="${user.status}">Trạng thái hoạt động</span></td>
+        <td><span id="role" th:text="${user.roles}">Role</span></td>
+    </tr>
+</table>
+<div th:replace="admin/fragments_admin :: admin_footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script
+        src="https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js"></script>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE -->
+<script th:src="@{/dist/js/adminlte.js}"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<!--	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>-->
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/dist/js/demo.js}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script th:src="@{/dist/js/pages/dashboard3.js}"></script>
+</body>
+</html>

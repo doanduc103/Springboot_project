@@ -59,7 +59,7 @@ public class UserControllerAPI {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/api/user/{id}")
+    @GetMapping("/api/user/{id}")
     public ResponseEntity<?> getUserbyID(Model model, @PathVariable(name = "id") Integer id) {
         userService.findById(id);
         return ResponseEntity.ok("Ok");

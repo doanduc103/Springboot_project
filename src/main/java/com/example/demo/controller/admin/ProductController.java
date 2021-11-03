@@ -7,6 +7,7 @@ import com.example.demo.model.dto.productDTO;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
@@ -111,7 +112,7 @@ public class ProductController {
         if (EditProduct.isPresent()) {
             model.addAttribute("productDTO", EditProduct);
         } else {
-            model.addAttribute("productDTO",productDTO);
+            model.addAttribute("productDTO", productDTO);
         }
         return "admin/tao-san-pham";
     }
@@ -129,5 +130,13 @@ public class ProductController {
         }
         productService.DeleteProduct(id);
         return "redirect:/trang-chu/ao-clothes/0";
+    }
+
+    @GetMapping("/search")
+    public String Search(String keyword, Model model) {
+        List<product> products = productService.Search(keyword);
+        model.addAttribute("listProduct", products);
+        model.addAttribute("keyword", keyword);
+        return "user/search_result";
     }
 }

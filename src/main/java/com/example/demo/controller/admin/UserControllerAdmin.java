@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.model.dto.UserDTO;
+import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,11 +28,11 @@ public class UserControllerAdmin {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/trang-chu/user-custom/{page}")
-    public String User(@PathVariable("page") Integer page,Model model) {
-        Page<User> user = userRepository.findAll(PageRequest.of(page,8));
-        model.addAttribute("currentPage",page);
-        model.addAttribute("TotalPage",user.getTotalPages());
-        model.addAttribute("totalItem",user.getTotalElements());
+    public String User(@PathVariable("page") Integer page, Model model) {
+        Page<User> user = userRepository.findAll(PageRequest.of(page, 8));
+        model.addAttribute("currentPage", page);
+        model.addAttribute("TotalPage", user.getTotalPages());
+        model.addAttribute("totalItem", user.getTotalElements());
         model.addAttribute("user", user);
         return "admin/user-custom";
     }
@@ -43,6 +44,7 @@ public class UserControllerAdmin {
 //        model.addAttribute("user", user);
         return "admin/user-edit";
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/trang-chu/add-user")
     public String AddUser(Model model, UserDTO userDTO) {
@@ -50,5 +52,11 @@ public class UserControllerAdmin {
         return "admin/add-user";
     }
 
-
+    @GetMapping("/trang-chu/search")
+    public String Search(@RequestParam("keyword") String keyword, Model model, User user) {
+        List<User> users = userService.search(keyword);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("ListUserSearch",users);
+        return "admin/user-search-result";
+    }
 }

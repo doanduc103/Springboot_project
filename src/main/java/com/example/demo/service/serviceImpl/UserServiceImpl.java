@@ -83,12 +83,7 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> users = userRepository.findById(id);
         if (users.isPresent()) {
-            User user = users.get();
-            user.setEmail(userDTO.getEmail());
-            user.setName(userDTO.getName());
-            String pass = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(12));
-            user.setPassword(pass);
-            user.setPhone(userDTO.getPhone());
+            User user = UserMapper.toUser(userDTO);
             userRepository.save(user);
             return user;
         } else {
@@ -113,21 +108,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUserAfterLoginOauth2(String email,String name, AuthenticationProvider provider) {
-            User user = new User();
-            user.setEmail(email);
-            user.setName(name);
-            user.setAuthenticationProvider(provider);
-            user.setPassword(user.password);
-            user.setCreated_at(new Date());
-            Role role = new Role();
-            role.setName("USER");
-            Set<Role> roles = new HashSet<>();
-            roles.add(role);
-            user.setRoles(roles);
-            userRepository.save(user);
-        }
-
+    public void createUserAfterLoginOauth2(String email, String name, AuthenticationProvider provider) {
+        User user = new User();
+        user.setEmail(email);
+        user.setName(name);
+        user.setAuthenticationProvider(provider);
+        user.setPassword(user.password);
+        user.setCreated_at(new Date());
+        Role role = new Role();
+        role.setName("USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
 
 
     @Override
@@ -141,6 +135,14 @@ public class UserServiceImpl implements UserService {
         roles.add(role);
         user.setRoles(roles);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<User> search(String keyword) {
+        if(keyword != null){
+            return userRepository.Search(keyword);
+        }
+        return userRepository.findAll();
     }
 
 }
