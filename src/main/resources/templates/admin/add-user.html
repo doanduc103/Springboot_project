@@ -11,7 +11,7 @@
 
     <form id="FormSubmit">
         <div class="form-group row">
-            <input type="hidden" class="form-control" name="name" id="id">
+            <input type="hidden" class="form-control" name="id" id="id">
         </div>
         <div class="form-group row">
             <div>
@@ -76,6 +76,7 @@
     $(document).ready(function () {
         $('#addBtn').click(function () {
             var UserForm = {};
+            UserForm.id = $('#id').val();
             UserForm.name = $('#name').val();
             UserForm.email = $('#email').val();
             UserForm.password = $('#password').val();
@@ -97,6 +98,25 @@
             if (UserForm.phone.length < 10 || UserForm.phone.length > 10) {
                 $('#invalid-feedback-phone').show();
             }
+
+            if (UserForm.id != null) {
+                $.ajax({
+                    url: 'http://localhost:6789/api/user/ ' + id,
+                    type: 'PUT',
+                    data: JSON.stringify(UserForm),
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        alert("Update User thành công !!");
+                        setTimeout(function (data) {
+                            window.location.href = "/trang-chu/user-custom/0";
+                        }, 2000);
+                    },
+                    error: function (data) {
+                        alert("Tạo sản phẩm không thành công");
+                        console.log('err');
+                    }
+                })
+            }
             $.ajax({
                 url: 'http://localhost:6789/api/create-user',
                 type: 'POST',
@@ -104,7 +124,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: function () {
                     alert("Tạo sản phẩm thành công"),
-                        setTimeout(function () {
+                        setTimeout(function (data) {
                             window.location.href = "/trang-chu/user-custom/0";
                         }, 2000);
                 },

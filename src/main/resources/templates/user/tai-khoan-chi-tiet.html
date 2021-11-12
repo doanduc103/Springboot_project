@@ -31,31 +31,40 @@
 <div th:insert="user/fragments :: header"></div>
 <div th:insert="user/fragments :: header1"></div>
 <div th:insert="user/fragments :: header3"></div>
-
-<form action="#" th:action="@{/register}" th:object="${user}" method="post" id="insert-user">
-    <input type="hidden" th:field="${id}">
-    <div class="form-control">
-        <span class="" id="full_name">Tên người dùng</span>
-        <input type="text" th:field="*{name}">
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+<div class="content">
+    <div>
+        <span th:if="${message}" th:text="${message}">Text</span>
+        <form action="#" th:action="@{/tai-khoan/update}" th:object="${user}" method="post" id="insert-user">
+<!--            <input type="hidden" th:value="*{id}" th:id="id" th:name="id">-->
+            <div class="form-control">
+                <span class="" id="id">ID</span>
+                <input type="text" th:field="*{id}" class="contact col-md-6">
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{id}"></span>
+            </div>
+            <div class="form-control">
+                <span class="" id="full_name">Tên người dùng</span>
+                <input type="text" th:field="*{name}" class="contact col-md-6">
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            </div>
+            <div class="form-control">
+                <span class="" id="email">Email</span>
+                <input type="email" th:field="*{email}" class="contact col-md-6">
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+            <div class="form-control">
+                <span class="" id="password">Password</span>
+                <input type="password" th:field="*{password}" class="contact col-md-6">
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+            <div class="form-control">
+                <span class="" id="phone">Số điện thoại</span>
+                <input type="text" th:field="*{phone}" class="contact col-md-6">
+                <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+            </div>
+            <input value="Save" type="submit" class="contact">
+        </form>
     </div>
-    <div class="form-control">
-        <span class="" id="email">Tên người dùng</span>
-        <input type="text" th:field="*{email}">
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-    </div>
-    <div class="form-control">
-        <span class="" id="password">Tên người dùng</span>
-        <input type="text" th:field="*{password}">
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-    </div>
-    <div class="form-control">
-        <span class="" id="phone">Tên người dùng</span>
-        <input type="text" th:field="*{phone}">
-        <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
-    </div>
-</form>
-
+</div>
 <div th:insert="user/fragments :: upper-footer"></div>
 <div th:insert="user/fragments :: footer"></div>
 <div th:insert="user/fragments :: gototop"></div>

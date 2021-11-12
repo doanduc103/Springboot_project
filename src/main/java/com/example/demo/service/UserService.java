@@ -19,6 +19,7 @@ public interface UserService {
 
     public User createUser(UserDTO userDTO);
 
+    public User UpdateUserLogged(User user) throws Exception;
 
     public List<UserDTO> getListUSer();
 
@@ -28,9 +29,11 @@ public interface UserService {
 
     public Page<User> GetListUser(Pageable pageable);
 
-    public User updateUser(UserDTO userDTO, Integer id) throws DuplicateMemberException;
+    public User updateUser(User user, Integer id) throws DuplicateMemberException;
 
     User deleteUser(Integer id);
+
+    User FindByEmail(String email);
 
     List<Role> findAll();
 

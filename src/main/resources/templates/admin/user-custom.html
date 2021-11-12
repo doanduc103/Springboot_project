@@ -42,9 +42,9 @@
                 <td><span id="status" th:text="${user.status}">Trạng thái hoạt động</span></td>
                 <td><span id="role" th:text="${user.roles}">Role</span></td>
                 <td>
-                    <a href="/trang-chu/user-edit">
-                        <button id="editBtn" class="btn btn-secondary mr-2 updateUser">Sửa</button>
-                    </a>
+                    <!--                    <a href="/trang-chu/add-user">-->
+                    <button id="editBtn" class="btn btn-secondary mr-2 updateUser">Sửa</button>
+                    <!--                    </a>-->
                 </td>
                 <td>
                     <button class="btn btn-secondary mr-2 deleteUser">
@@ -160,19 +160,14 @@
             $(this).parent().parent().hide(400);
             $.ajax({
                 url: "http://localhost:6789/api/user/" + id,
-                type: "PUT",
+                type: "GET",
                 contentType: "application/json; charset=UTF-8 ",
                 data: JSON.stringify(Edit),
                 success: function (data) {
-                    alert("OK");
-                    // name.val(data.name);
-                    // email.val(data.email);
-                    // password.val(data.password);
-                    // phone.val(data.phone);
-                    // status.val(data.status);
+                    window.location.href = "http://localhost:6789/trang-chu/add-user";
                 },
                 error: function () {
-                    alert("Fail");
+                    alert("Sửa Thông tin User thất bại !!");
                 }
             });
         })

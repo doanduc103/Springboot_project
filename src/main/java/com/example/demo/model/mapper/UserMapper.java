@@ -23,8 +23,8 @@ public class UserMapper {
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
-        String pass = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt(12));
-        user.setPassword(pass);
+//        String pass = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt(12));
+        user.setPassword(userDto.getPassword());
         user.setCreated_at(new Timestamp(System.currentTimeMillis()));
         user.setStatus(true);
         Role role = new Role();

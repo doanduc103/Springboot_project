@@ -58,6 +58,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User UpdateUserLogged(User user) throws Exception {
+       Optional<User> users = userRepository.findById(user.id);
+        if(users.isPresent()){
+            user.setEmail(user.email);
+            user.setName(user.name);
+            user.setPassword(user.password);
+            user.setPhone(user.phone);
+            return user;
+        }
+        throw new Exception("User Not found !!");
+    }
+
+    @Override
     public Optional<User> findById(Integer id) {
         return userRepository.findById(id);
 
@@ -79,11 +92,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(UserDTO userDTO, Integer id) throws DuplicateMemberException {
+    public User updateUser(User user, Integer id) throws DuplicateMemberException {
 
         Optional<User> users = userRepository.findById(id);
         if (users.isPresent()) {
-            User user = UserMapper.toUser(userDTO);
+            user.setId(id);
+            user.setEmail(user.email);
+            user.setName(user.name);
+            user.setPassword(user.password);
+            user.setPhone(user.phone);
             userRepository.save(user);
             return user;
         } else {
@@ -100,6 +117,11 @@ public class UserServiceImpl implements UserService {
         User user = users.get();
         userRepository.delete(user);
         return user;
+    }
+
+    @Override
+    public User FindByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -139,7 +161,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> search(String keyword) {
-        if(keyword != null){
+        if (keyword != null) {
             return userRepository.Search(keyword);
         }
         return userRepository.findAll();

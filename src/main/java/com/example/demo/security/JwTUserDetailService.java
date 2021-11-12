@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.model.request.CustomUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,13 @@ public class JwTUserDetailService implements UserDetailsService {
         LOGGER.debug("Authentication user with email" + name);
         User user = repo.findByEmail(name);
 
-        if (user == null) {
-            LOGGER.error("Username not found !");
-            throw new UsernameNotFoundException("email không tồn tại" + user.getEmail());
+        if (user != null) {
+            return new CustomUserDetails(user);
         }
-        LOGGER.warn("We are testing the spring boot");
-        LOGGER.info("Authentication success !");
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
+        LOGGER.error("Username not found !");
+        throw new UsernameNotFoundException("email không tồn tại" + user.getEmail());
+//        LOGGER.warn("We are testing the spring boot");
+//        LOGGER.info("Authentication success !");
+//        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
     }
 }
