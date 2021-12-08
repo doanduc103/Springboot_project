@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +14,6 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
 
-    @Override
     public String getErrorPath() {
         return "user/error";
     }
@@ -31,15 +29,15 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 pageTittle = "Page not found";
                 errorPage = "user/error/404";
-                LOGGER.error("Error 404");
+//                LOGGER.error("Error 404");
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 pageTittle = "Internal Server Error";
                 errorPage = "user/error/500";
-                LOGGER.error("Error 500");
+//                LOGGER.error("Error 500");
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 pageTittle = "Forbiden Error";
                 errorPage = "user/error/403";
-                LOGGER.error("Error 403");
+//                LOGGER.error("Error 403");
             }
         }
         model.addAttribute("pageTittle", pageTittle);

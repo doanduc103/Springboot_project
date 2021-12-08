@@ -33,35 +33,44 @@
 <div th:insert="user/fragments :: header3"></div>
 <div class="content">
     <div>
-        <span th:if="${message}" th:text="${message}">Text</span>
+        <span th:if="${message}" th:text="${message}" class="alert-default-light">Text</span>
         <form action="#" th:action="@{/tai-khoan/update}" th:object="${user}" method="post" id="insert-user">
-<!--            <input type="hidden" th:value="*{id}" th:id="id" th:name="id">-->
+            <!--            <input type="hidden" th:value="*{id}" th:id="id" th:name="id">-->
             <div class="form-control">
                 <span class="" id="id">ID</span>
-                <input type="text" th:field="*{id}" class="contact col-md-6">
+                <input type="text" th:field="*{id}" class="contact col-md-6" required>
                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{id}"></span>
             </div>
             <div class="form-control">
                 <span class="" id="full_name">Tên người dùng</span>
-                <input type="text" th:field="*{name}" class="contact col-md-6">
+                <input type="text" th:field="*{name}" class="contact col-md-6" required>
                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
             <div class="form-control">
                 <span class="" id="email">Email</span>
-                <input type="email" th:field="*{email}" class="contact col-md-6">
+                <input type="email" th:field="*{email}" class="contact col-md-6" required>
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
             </div>
             <div class="form-control">
                 <span class="" id="password">Password</span>
-                <input type="password" th:field="*{password}" class="contact col-md-6">
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                <input type="text" name="password" minlength="4" th:field="*{password}"
+                       class="contact col-md-6" required>
+                <i class="bi bi-eye-slash" id="togglePassword" style="margin-left: -30px; cursor: pointer"></i>
             </div>
+            <!--            <div class="form-control">-->
+            <!--                <span class="">Nhập lại mật khẩu</span>-->
+            <!--                <input type="password" name="password" id="rpassword" class="contact col-md-6"-->
+            <!--                       required>-->
+            <!--                <span class="invalid-password" id="invalid-password">Mật khẩu không trùng nhau, Vui lòng thử lại</span>-->
+            <!--                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>-->
+            <!--            </div>-->
             <div class="form-control">
                 <span class="" id="phone">Số điện thoại</span>
-                <input type="text" th:field="*{phone}" class="contact col-md-6">
+                <input type="tel" th:field="*{phone}" class="contact col-md-6" required>
                 <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
             </div>
             <input value="Save" type="submit" class="contact">
+            <a th:href="@{'/index'}"><input type="button" value="Trở lại" class="contact"></a>
         </form>
     </div>
 </div>
@@ -71,6 +80,31 @@
 
 <div th:fragment="footer"></div>
 
+
+<script type="javascript">
+    // const password = document.getElementById('password');
+    // const rpassword = document.getElementById('rpassword');
+
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    function HidePassword() {
+        password.type == hide;
+    }
+
+    function hidePasswords() {
+        var inputs = document.getElementsByTagName('input');
+        for (var i = 0; i < inputs.length; ++i)
+            if (inputs[i].type == 'password') input[i].value = '*****';
+    }
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye / eye slash icon
+        this.classList.toggle('bi-eye');
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
         integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"

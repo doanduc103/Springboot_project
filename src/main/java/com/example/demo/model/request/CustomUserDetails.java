@@ -2,15 +2,20 @@ package com.example.demo.model.request;
 
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
     private User user;
@@ -63,15 +68,34 @@ public class CustomUserDetails implements UserDetails {
         this.user.getName();
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.user.getEmail();
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.user.getPassword();
     }
 
-    public void setPhone(String phone){
+    public void setPhone(String phone) {
         this.user.getPhone();
     }
+
+    public boolean setStatus(boolean b) {
+        this.user.setStatus(true);
+        return true;
+    }
+
+
+    public void setRole(Set<Role> roles) {
+        Role role = new Role();
+        role.setName("USER");
+        roles.add(role);
+//        this.user.getRoles();
+    }
+
+
+    public void setCreatedtime(Timestamp timestamp) {
+        new Timestamp(System.currentTimeMillis());
+    }
+
 }

@@ -5,73 +5,75 @@
     <title>Title</title>
 </head>
 <body>
-<div class="wrapper">
-    <!--    <div th:replace="admin/fragments_admin :: head_menu"></div>-->
-    <!--    <div th:replace="admin/fragments_admin :: side-bar"></div>-->
-    <div class="content">
-        <input type="hidden" th:id="${user.id}"  th:value="${user.id}" class="form-control">
-        <div class="form-group row">
-            <div>
-                <label class="required-label" for="name"> Tên người dùng</label>
-                <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 30 ký tự</span>
-            </div>
-            <input type="text" class="form-control" id="name" th:value="${user.name}">
-        </div>
-
-        <div class="form-group row">
-            <div>
-                <label class="required-label" for="email"> Email</label>
-                <span class="invalid-feedback" id="invalid-feedback-email">ko được để trống</span>
-            </div>
-            <input type="email" class="form-control" id="email" th:value="${user.email}">
-        </div>
-
-        <div class="form-group row">
-            <div>
-                <label class="required-label" for="password"> Password</label>
-                <span class="invalid-feedback" id="invalid-feedback-password">password không được để trống</span>
-            </div>
-            <input type="password" class="form-control" id="password" th:value="${user.password}">
-
-        </div>
-
-        <!--        <div class="form-group">-->
-        <!--            <label class="col-md-4 control-label" for="confirmpassword">Re-password</label>-->
-        <!--            <input class="form-control" type="password" id="confirmpassword" name="confirmpassword"-->
-        <!--                   placeholder="Nhập lại password"-->
-        <!--                   th:field="*{rpassword}">-->
-        <!--            <span th:if="${#fields.hasErrors('rpassword')}" th:errorclass="error"-->
-        <!--                  th:errors="*{rpassword}">Lỗi</span>-->
-        <!--        </div>-->
-
-        <div class="form-group row">
-            <div>
-                <label class="required-label" for="phone"> Số điện thoại</label>
-                <span class="invalid-feedback"
-                      id="invalid-feedback-phone">sdt không được để trống, sdt phải có 10 số</span>
-            </div>
-            <input type="tel" class="form-control" id="phone" th:value="${user.phone}">
-        </div>
-
-        <div class="form-group row">
-            <label for="status" class="required-label">Trạng thái</label>
-            <select class="form-control" id="status">
-                <option value="true">Mở bán</option>
-                <option value="false">Không bán</option>
-            </select>
-        </div>
-
-        <div class="form-group row">
+<form>
+    <div class="wrapper">
+        <!--    <div th:replace="admin/fragments_admin :: head_menu"></div>-->
+        <!--    <div th:replace="admin/fragments_admin :: side-bar"></div>-->
+        <div class="content">
+            <input type="hidden" th:id="${user.id}" th:value="${user.id}" class="form-control">
             <div class="form-group row">
-                <a href="/trang-chu/user-custom/0">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                </a>
+                <div>
+                    <label class="required-label" for="name"> Tên người dùng</label>
+                    <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 30 ký tự</span>
+                </div>
+                <input type="text" class="form-control" id="name" th:value="${user.name}">
+            </div>
 
-                <button type="submit" id="editBtn" value="Cập nhập tài khoản">Cập nhập tài khoản</button>
+            <div class="form-group row">
+                <div>
+                    <label class="required-label" for="email"> Email</label>
+                    <span class="invalid-feedback" id="invalid-feedback-email">ko được để trống</span>
+                </div>
+                <input type="email" class="form-control" id="email" th:value="${user.email}">
+            </div>
+
+            <div class="form-group row">
+                <div>
+                    <label class="required-label" for="password"> Password</label>
+                    <span class="invalid-feedback" id="invalid-feedback-password">password không được để trống</span>
+                </div>
+                <input type="password" class="form-control" id="password" th:value="${user.password}">
+
+            </div>
+
+            <!--        <div class="form-group">-->
+            <!--            <label class="col-md-4 control-label" for="confirmpassword">Re-password</label>-->
+            <!--            <input class="form-control" type="password" id="confirmpassword" name="confirmpassword"-->
+            <!--                   placeholder="Nhập lại password"-->
+            <!--                   th:field="*{rpassword}">-->
+            <!--            <span th:if="${#fields.hasErrors('rpassword')}" th:errorclass="error"-->
+            <!--                  th:errors="*{rpassword}">Lỗi</span>-->
+            <!--        </div>-->
+
+            <div class="form-group row">
+                <div>
+                    <label class="required-label" for="phone"> Số điện thoại</label>
+                    <span class="invalid-feedback"
+                          id="invalid-feedback-phone">sdt không được để trống, sdt phải có 10 số</span>
+                </div>
+                <input type="tel" class="form-control" id="phone" th:value="${user.phone}">
+            </div>
+
+            <div class="form-group row">
+                <label for="status" class="required-label">Trạng thái</label>
+                <select class="form-control" id="status">
+                    <option value="true">Mở bán</option>
+                    <option value="false">Không bán</option>
+                </select>
+            </div>
+
+            <div class="form-group row">
+                <div class="form-group row">
+                    <a href="/trang-chu/user-custom/0">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </a>
+
+                    <button type="submit" id="editBtn" value="Cập nhập tài khoản">Cập nhập tài khoản</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 <div th:replace="admin/fragments_admin :: admin_footer"></div>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
         integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
@@ -147,21 +149,20 @@
                 status: status
             };
             $.ajax({
-                url: "http://localhost:6789/api/user/" + id,
-                type: "POST",
+                url: "http://localhost:6789/api/users/" + [[${user.id}]],
+                type: "PUT",
                 contentType: "application/json; charset=UTF-8 ",
                 data: JSON.stringify(Edit),
                 success: function (data) {
                     alert("OK");
-                    name.val(data.name);
-                    email.val(data.email);
-                    password.val(data.password);
-                    phone.val(data.phone);
-                    status.val(data.status);
-
+                    console.log(data);
+                    setTimeout(function () {
+                        window.location.href = 'http://localhost:6789/user-custom/0';
+                    }, 2000);
                 },
-                error: function () {
+                error: function (xhr) {
                     alert("Fail");
+                    console.log(xhr);
                 }
             });
         });

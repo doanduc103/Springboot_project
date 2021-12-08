@@ -38,10 +38,10 @@ public class UserControllerAdmin {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/trang-chu/user-edit")
-    public String User(Model model, User user) {
-//        userRepository.findById(user.id);
-//        model.addAttribute("user", user);
+    @GetMapping("/trang-chu/user-edit/{id}")
+    public String User(@PathVariable("id") Integer id, Model model, User user) {
+        Optional<User> users = userService.findById(id);
+        model.addAttribute("user", user);
         return "admin/user-edit";
     }
 
@@ -56,7 +56,7 @@ public class UserControllerAdmin {
     public String Search(@RequestParam("keyword") String keyword, Model model, User user) {
         List<User> users = userService.search(keyword);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("ListUserSearch",users);
+        model.addAttribute("ListUserSearch", users);
         return "admin/user-search-result";
     }
 }

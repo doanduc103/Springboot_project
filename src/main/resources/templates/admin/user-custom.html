@@ -31,7 +31,7 @@
             </tr>
             <tr
                     th:each="user : ${user}" th:id="${user.id}">
-                <td><span th:text="${user.id}">ID</span></td>
+                <td><span id="id" th:text="${user.id}">ID</span></td>
                 <td><span id="photo" th:text="${user.photo}">Photo</span></td>
                 <td><span id="email" th:text="${user.email}">Email</span></td>
                 <td><span id="name" th:text="${user.name}">Name</span></td>
@@ -104,6 +104,18 @@
 <!-- Bootstrap -->
 <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script>
+
+    function Xoa() {
+        const confirm = confirm("Bạn có chắc chắn muốn xóa tài khoản này ?");
+        if (confirm == true) {
+            alert("Bạn đã xóa sản phẩm này !");
+            return true;
+        } else {
+            alert("Hủy thao tác ");
+            return false;
+        }
+    }
+
     $(document).ready(function () {
 
         var name = $('#name').val();
@@ -128,6 +140,7 @@
         }
         var id = $('#id').val();
         var Edit = {
+            // id : id,
             name: name,
             email: email,
             password: password,
@@ -162,12 +175,15 @@
                 url: "http://localhost:6789/api/user/" + id,
                 type: "GET",
                 contentType: "application/json; charset=UTF-8 ",
-                data: JSON.stringify(Edit),
+                data: JSON,
                 success: function (data) {
-                    window.location.href = "http://localhost:6789/trang-chu/add-user";
+                    alert("OK");
+                    window.location.href = 'http://localhost:6789/trang-chu/user-edit/' + id;
+                    console.log(data);
                 },
-                error: function () {
-                    alert("Sửa Thông tin User thất bại !!");
+                error: function (data) {
+                    alert("Có lỗi xảy ra vui lòng thử lại !!");
+                    console.log(data);
                 }
             });
         })

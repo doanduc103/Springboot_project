@@ -31,4 +31,5 @@ public class AdminController {
 	public String paints() {
 		return "admin/quan-clothes";
 	}
+
 }

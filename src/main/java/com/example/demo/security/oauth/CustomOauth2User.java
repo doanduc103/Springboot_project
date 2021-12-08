@@ -29,7 +29,16 @@ public class CustomOauth2User implements OAuth2User {
         return oauth2user.getAttribute("name");
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return oauth2user.getAttribute("email");
+    }
+
+    public String password() {
+        return oauth2user.getAttribute("password");
+
+    }
+
+    public String phone() {
+        return oauth2user.getAttribute("phone");
     }
 }

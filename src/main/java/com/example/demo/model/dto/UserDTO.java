@@ -19,13 +19,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    private Long id;
+    private Integer id;
     @NotBlank(message = "ten ko dc de trong")
     private String name;
     @NotBlank(message = "password ko dc de trong")
     @Size(min = 4, max = 20, message = "password phai tu 4-20")
     private String password;
-    private String rpassword;
     @Email
     @NotBlank(message = "Email ko dc de trong")
     private String email;

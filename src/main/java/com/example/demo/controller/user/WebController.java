@@ -1,9 +1,11 @@
 package com.example.demo.controller.user;
 
 import com.example.demo.entity.User;
+import com.example.demo.exception.ErrorResponse;
 import com.example.demo.model.request.CustomUserDetails;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.swing.*;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 @Controller
@@ -45,19 +51,15 @@ public class WebController {
 
     @PostMapping(value = "/tai-khoan/update")
 //    @ResponseBody
-    public String userDetail(@RequestParam("id") Integer id, @AuthenticationPrincipal CustomUserDetails userDetails, User user, Model model) throws Exception {
-//        userService.UpdateUserLogged(user);
-        userDetails.setName(user.getName());
-        userDetails.setEmail(user.getEmail());
-        userDetails.setPassword(user.getPassword());
-        userDetails.setPhone(user.getPhone());
-        userService.updateUser(user,id);
-        model.addAttribute("message", "Tài khoản của bạn đã cập nhập");
-        model.addAttribute("message", "Cập nhập không thành công");
-
-//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.name,user.password);
-//
-//        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        return "user/tai-khoan-chi-tiet";
+    public String userDetail(@Valid @RequestParam("id") Integer id, @AuthenticationPrincipal CustomUserDetails userDetails, User user, Model model) throws Exception {
+        boolean sucess = true;
+        if (sucess) {
+            userService.UpdateUserLogged(user, id);
+            model.addAttribute("message", "Tài khoản của bạn đã cập nhập");
+            return "user/tai-khoan-chi-tiet";
+        } else {
+            model.addAttribute("message", "Cập nhập tài khoản không thành công, vui lòng thử lại !!");
+            return "user/tai-khoan-chi-tiet";
+        }
     }
 }

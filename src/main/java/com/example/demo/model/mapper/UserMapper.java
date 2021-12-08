@@ -28,14 +28,12 @@ public class UserMapper {
         user.setCreated_at(new Timestamp(System.currentTimeMillis()));
         user.setStatus(true);
         Role role = new Role();
-        boolean choosen = false;
+        boolean choosen = true;
         if(choosen){
             role.setName("ADMIN");
         } else{
             role.setName("USER");
         }
-//        role.setName("USER");
-//        role.setName("ADMIN");
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);

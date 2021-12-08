@@ -50,7 +50,7 @@ public class UserControllerAPI {
     @GetMapping("/trang-chu/user-view/{page}")
     public ResponseEntity<?> GetListUser(@PathVariable("page") Integer page, Model model) {
 
-        Page<User> result = userService.GetListUser(PageRequest.of(page, 5));
+        Page<User> result = userService.GetListUser(PageRequest.of(page, 10));
 
         model.addAttribute("result", result);
         model.addAttribute("currentPage", page);
@@ -61,9 +61,16 @@ public class UserControllerAPI {
 
     @GetMapping("/api/user/{id}")
     public ResponseEntity<?> getUserbyID(Model model, @PathVariable(name = "id") Integer id) {
-       Optional<User> user = userService.findById(id);
-       model.addAttribute("user", user);
-        return ResponseEntity.ok("Ok");
+        try {
+            System.out.println(id);
+            Optional<User> user = userService.findById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+//        model.addAttribute("user", user);
+//        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/api/create-user")
@@ -74,11 +81,9 @@ public class UserControllerAPI {
     }
 
     @PutMapping("/api/users/{id}")
-    public @ResponseBody
-    ResponseEntity<?> EditUser(User user, @PathVariable(name = "id") Integer id, Model model) throws DuplicateMemberException {
+    public ResponseEntity<?> EditUser(@RequestBody User user, @PathVariable(name = "id") Integer id, Model model) throws DuplicateMemberException {
         userService.updateUser(user, id);
-        System.out.println(id);
-        return ResponseEntity.ok("Cập nhập thành công");
+        return ResponseEntity.ok("Đã cập nhập User " + id);
     }
 
     @DeleteMapping(value = "/api/user/{id}")

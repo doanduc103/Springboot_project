@@ -1,27 +1,29 @@
 package com.example.demo.service.serviceImpl;
 
-import java.util.*;
-
 import com.example.demo.entity.AuthenticationProvider;
 import com.example.demo.entity.Role;
+import com.example.demo.entity.User;
+import com.example.demo.exception.NotFoundException;
+import com.example.demo.model.dto.UserDTO;
+import com.example.demo.model.mapper.UserMapper;
+import com.example.demo.model.request.CustomUserDetails;
 import com.example.demo.repository.RoleRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.oauth.CustomOauth2User;
+import com.example.demo.service.UserService;
 import javassist.bytecode.DuplicateMemberException;
-import org.mindrot.jbcrypt.BCrypt;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.entity.User;
-import com.example.demo.exception.NotFoundException;
-import com.example.demo.model.dto.UserDTO;
-import com.example.demo.model.mapper.UserMapper;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -29,16 +31,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+//    @Autowired
+//    private ModelMapper modelMapper;
 
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public List<UserDTO> getListUSer() {
         List<User> users = userRepository.findAll();
-        ArrayList<UserDTO> result = new ArrayList<UserDTO>();
+        ArrayList<UserDTO> result = new ArrayList<>();
         for (User user : users) {
             result.add(UserMapper.toDto(user));
         }
@@ -58,16 +63,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User UpdateUserLogged(User user) throws Exception {
-       Optional<User> users = userRepository.findById(user.id);
-        if(users.isPresent()){
-            user.setEmail(user.email);
-            user.setName(user.name);
-            user.setPassword(user.password);
-            user.setPhone(user.phone);
-            return user;
+    public User UpdateUserLogged(User userEdit, Integer id) throws Exception {
+        Optional<User> userid = userRepository.findById(id);
+        User Userlogged = userid.get();
+        if (userid.isPresent()) {
+            Userlogged.setEmail(userEdit.getEmail());
+            Userlogged.setName(userEdit.getName());
+            Userlogged.setPassword(passwordEncoder.encode(userEdit.getPassword()));
+            Userlogged.setPhone(userEdit.getPhone());
+            Userlogged.setStatus(true);
+            Userlogged.setCreated_at(new Timestamp(System.currentTimeMillis()));
+            Role role = new Role();
+            role.setName("USER");
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            Userlogged.setRoles(roles);
+            userRepository.save(Userlogged);
         }
-        throw new Exception("User Not found !!");
+        return Userlogged;
+
     }
 
     @Override
@@ -92,20 +106,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user, Integer id) throws DuplicateMemberException {
-
-        Optional<User> users = userRepository.findById(id);
-        if (users.isPresent()) {
-            user.setId(id);
-            user.setEmail(user.email);
-            user.setName(user.name);
-            user.setPassword(user.password);
-            user.setPhone(user.phone);
+    public User updateUser(User editUser, Integer id) throws DuplicateMemberException {
+        Optional<User> userid = userRepository.findById(id);
+        User user = userid.get();
+        if (userid.isPresent()) {
+            user.setEmail(editUser.getEmail());
+            user.setName(editUser.getName());
+            user.setPassword(editUser.getPassword());
+            user.setPhone(editUser.getPhone());
+            user.setStatus(true);
+            user.setCreated_at(new Timestamp(System.currentTimeMillis()));
+            Role role = new Role();
+            role.setName("USER");
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            user.setRoles(roles);
             userRepository.save(user);
-            return user;
-        } else {
-            throw new NotFoundException("Không tìm thấy id " + id);
         }
+        return user;
     }
 
     @Override
@@ -135,8 +153,9 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setName(name);
         user.setAuthenticationProvider(provider);
-        user.setPassword(user.password);
-        user.setCreated_at(new Date());
+        user.setPassword(user.getPassword());
+        user.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        user.setStatus(true);
         Role role = new Role();
         role.setName("USER");
         Set<Role> roles = new HashSet<>();
@@ -150,7 +169,9 @@ public class UserServiceImpl implements UserService {
     public void updateUserAfterLoginOauth2(String email, String name, AuthenticationProvider google) {
         User user = userRepository.findByEmail(email);
         user.setName(name);
+        user.setEmail(email);
         user.setAuthenticationProvider(google);
+        user.setStatus(true);
         Role role = new Role();
         role.setName("USER");
         Set<Role> roles = new HashSet<>();
@@ -167,19 +188,53 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public void updateUserLogin(User user) {
+        Optional<User> existUser = userRepository.findById(user.getId());
+        if (existUser.get().getAuthenticationProvider().equals(AuthenticationProvider.LOCAL))
+            if (user.getPassword().isEmpty()) {
+                user.setPassword(existUser.get().getPassword());
+            } else {
+                passwordEncoder(user);
+            }
+        user.setAuthenticationProvider(existUser.get().getAuthenticationProvider());
+        user.setStatus(true);
+        userRepository.save(user);
+    }
+
+    @Override
+    public User GetCurrentlyLogged(Authentication authentication) {
+        if (authentication == null) return null;
+
+        User user = null;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+            user = ((CustomUserDetails) principal).getUser();
+        } else if (principal instanceof CustomOauth2User) {
+            String email = ((CustomOauth2User) principal).getEmail();
+            user = FindByEmail(email);
+        }
+        return user;
+    }
+
+    private void passwordEncoder(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String passwordEndcoder = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEndcoder);
+    }
+
+    @Override
+    public User UpdateAfterLogin(@AuthenticationPrincipal CustomUserDetails userDetails, User user) {
+        userDetails.setName(user.getName());
+        userDetails.setEmail(user.getEmail());
+        userDetails.setPassword(user.getPassword());
+        userDetails.setPhone(user.getPhone());
+        userDetails.setStatus(true);
+        userDetails.setCreatedtime(new Timestamp(System.currentTimeMillis()));
+        userDetails.setRole(user.getRoles());
+        return userRepository.save(user);
+    }
+
+
 }
 
-//    @Override
-//    public String GetCurrentlyLogged(Authentication authentication) {
-//        if (authentication == null) return null;
-//        User user = null;
-//        Object principal = authentication.getPrincipal();
-//        if (principal instanceof UserDetails) {
-//            user = ((UserDetails) principal).getUsername();
-//        } else {
-//            user = principal.toString();
-//        }
-//
-//        return user;
-//    }
-//}
