@@ -2,6 +2,7 @@ package com.example.demo.controller.user;
 
 import com.example.demo.entity.CartItem;
 import com.example.demo.entity.User;
+import com.example.demo.entity.product;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,12 @@ public class ShoppingCartController {
     private UserService userService;
 
     @GetMapping("/tai-khoan/shopping-carts")
-    public String ShoppingCarts(@AuthenticationPrincipal Authentication authentication, Model model) {
+    public String ShoppingCarts(@AuthenticationPrincipal Authentication authentication, Model model, product product) {
         User user = userService.GetCurrentlyLogged(authentication);
         List<CartItem> cartItemList = cartRepository.findByUser(user);
+        model.addAttribute("product", product);
         model.addAttribute("cartItems", cartItemList);
-        model.addAttribute("PageTittle","Shopping Cart");
+        model.addAttribute("PageTittle", "Shopping Cart");
         return "user/ShoppingCarts";
     }
 }

@@ -188,20 +188,20 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    @Override
-    public void updateUserLogin(User user) {
-        Optional<User> existUser = userRepository.findById(user.getId());
-        if (existUser.get().getAuthenticationProvider().equals(AuthenticationProvider.LOCAL))
-            if (user.getPassword().isEmpty()) {
-                user.setPassword(existUser.get().getPassword());
-            } else {
-                passwordEncoder(user);
-            }
-        user.setAuthenticationProvider(existUser.get().getAuthenticationProvider());
-        user.setStatus(true);
-        userRepository.save(user);
-    }
-
+//    @Override
+//    public void updateUserLogin(User user) {
+//        Optional<User> existUser = userRepository.findById(user.getId());
+//        if (existUser.get().getAuthenticationProvider().equals(AuthenticationProvider.LOCAL))
+//            if (user.getPassword().isEmpty()) {
+//                user.setPassword(existUser.get().getPassword());
+//            } else {
+//                passwordEncoder(user);
+//            }
+//        user.setAuthenticationProvider(existUser.get().getAuthenticationProvider());
+//        user.setStatus(true);
+//        userRepository.save(user);
+//    }
+//
     @Override
     public User GetCurrentlyLogged(Authentication authentication) {
         if (authentication == null) return null;
