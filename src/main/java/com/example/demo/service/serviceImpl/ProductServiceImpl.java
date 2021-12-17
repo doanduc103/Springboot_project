@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public productDTO UpdateProduct(productDTO productDTO, Long id) {
+    public productDTO UpdateProduct(productDTO productDTO, Integer id) {
         List<product> products = productRepository.findAll();
         for (product product : products) {
             if (!product.getName().equals(productDTO.getName())) {
@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public product DeleteProduct(Long id) {
+    public product DeleteProduct(Integer id) {
 
         Optional<product> result = productRepository.findById(id);
         if (result == null) {
@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public product getProductById(Long id) {
+    public product getProductById(Integer id) {
         Optional<product> product = productRepository.findById(id);
         if (product.isPresent()) {
             return product.get();

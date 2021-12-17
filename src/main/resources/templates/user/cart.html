@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <td>id</td>
+            <td>product_id</td>
+            <td>user_id</td>
+            <td>quantity</td>
+        </tr>
+        <tr th:each="cart : ${cart}">
+            <td th:text="${cart.id}"></td>
+            <td th:text="${cart.product}"></td>
+            <td th:text="${cart.user}"></td>
+            <td th:text="${cart.quantity}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

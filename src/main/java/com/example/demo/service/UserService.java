@@ -45,9 +45,11 @@ public interface UserService {
 
     List<User> search(String keyword);
 
-//	void updateUserLogin(User user);
+    //	void updateUserLogin(User user);
 //
-	User GetCurrentlyLogged (Authentication authentication);
+    User getCurrentUser();
+
+    User GetCurrentlyLogged(@AuthenticationPrincipal Authentication authentication);
 
     User UpdateAfterLogin(@AuthenticationPrincipal CustomUserDetails userDetails, User user);
 }

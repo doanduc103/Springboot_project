@@ -44,11 +44,6 @@ public class WebController {
         return "user/tai-khoan-chi-tiet";
     }
 
-//    @GetMapping("/tai-khoan/update/{id}")
-//    public Optional<User> Getdetails(User user){
-//        return userRepository.findById(user.id);
-//    }
-
     @PostMapping(value = "/tai-khoan/update")
 //    @ResponseBody
     public String userDetail(@Valid @RequestParam("id") Integer id, @AuthenticationPrincipal CustomUserDetails userDetails, User user, Model model) throws Exception {

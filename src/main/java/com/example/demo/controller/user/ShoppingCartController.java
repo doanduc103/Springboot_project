@@ -6,6 +6,7 @@ import com.example.demo.entity.product;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,19 @@ public class ShoppingCartController {
     @GetMapping("/tai-khoan/shopping-carts")
     public String ShoppingCarts(@AuthenticationPrincipal Authentication authentication, Model model, product product) {
         User user = userService.GetCurrentlyLogged(authentication);
+        System.out.println(authentication);
         List<CartItem> cartItemList = cartRepository.findByUser(user);
-        model.addAttribute("product", product);
+//        model.addAttribute("product", product);
         model.addAttribute("cartItems", cartItemList);
         model.addAttribute("PageTittle", "Shopping Cart");
         return "user/ShoppingCarts";
     }
+
+//    @GetMapping("/cart")
+//    public String cart(Model model) {
+//        List<CartItem> cartItems = cartRepository.findAll();
+//        System.out.println(cartItems);
+//        model.addAttribute("cart", cartItems);
+//        return "user/cart";
+//    }
 }

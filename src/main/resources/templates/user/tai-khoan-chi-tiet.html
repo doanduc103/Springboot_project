@@ -35,7 +35,7 @@
     <div>
         <span th:if="${message}" th:text="${message}" class="alert-default-light">Text</span>
         <form action="#" th:action="@{/tai-khoan/update}" th:object="${user}" method="post" id="insert-user">
-            <!--            <input type="hidden" th:value="*{id}" th:id="id" th:name="id">-->
+<!--                        <input type="hidden" th:value="*{id}" th:id="id" th:name="id">-->
             <div class="form-control">
                 <span class="" id="id">ID</span>
                 <input type="text" th:field="*{id}" class="contact col-md-6" required>

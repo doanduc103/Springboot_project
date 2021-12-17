@@ -5,6 +5,7 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.dto.UserDTO;
 import com.example.demo.model.mapper.UserMapper;
 import com.example.demo.model.request.AuthenticateReq;
+import com.example.demo.repository.CartRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwTTokenUtil;
 import com.example.demo.service.UserService;
@@ -37,6 +38,9 @@ public class UserControllerAPI {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwTTokenUtil jwTTokenUtil;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     UserService userService;

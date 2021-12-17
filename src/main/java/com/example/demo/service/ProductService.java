@@ -15,11 +15,11 @@ public interface ProductService {
 
     product createProduct(productDTO productDTO);
 
-    productDTO UpdateProduct(productDTO productDTO, Long id);
+    productDTO UpdateProduct(productDTO productDTO, Integer id);
 
-    product DeleteProduct(Long id);
+    product DeleteProduct(Integer id);
 
-    product getProductById(Long id);
+    product getProductById(Integer id);
 
     List<product> Search(String name);
 }

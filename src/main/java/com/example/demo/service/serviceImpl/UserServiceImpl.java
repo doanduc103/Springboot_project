@@ -16,8 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -188,7 +193,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-//    @Override
+    //    @Override
 //    public void updateUserLogin(User user) {
 //        Optional<User> existUser = userRepository.findById(user.getId());
 //        if (existUser.get().getAuthenticationProvider().equals(AuthenticationProvider.LOCAL))
@@ -203,11 +208,12 @@ public class UserServiceImpl implements UserService {
 //    }
 //
     @Override
-    public User GetCurrentlyLogged(Authentication authentication) {
+    public User GetCurrentlyLogged(@AuthenticationPrincipal Authentication authentication) {
         if (authentication == null) return null;
 
-        User user = null;
+        User user = new User();
         Object principal = authentication.getPrincipal();
+        System.out.println(principal);
         if (principal instanceof CustomUserDetails) {
             user = ((CustomUserDetails) principal).getUser();
         } else if (principal instanceof CustomOauth2User) {
@@ -235,6 +241,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-
+    @Override
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+            if (authentication.isAuthenticated()) {
+                UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
+                return (User) authenticationToken.getPrincipal();
+            }
+        }
+        throw new BadCredentialsException(MessageCodes.SESSION_EXPIRED);
+    }
 }
 

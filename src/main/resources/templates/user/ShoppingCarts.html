@@ -17,7 +17,7 @@
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
 </head>
 <body>
-<div><span sec:authorize="isAuthenticated()">Hello</span> : <span sec:authentication="name"></span> </div>
+<div><span sec:authorize="isAuthenticated()">Hello</span> : <span sec:authentication="name"></span></div>
 <div class="card">
     <div class="row">
         <div class="col-md-8 cart">
@@ -34,66 +34,30 @@
                 </div>
             </div>
             <div class="row border-top border-bottom">
-                <th:block th:each="item : ${cartItems}"/>
-                <div class="row main align-items-center">
-                    <div class="col-2"><img th:src="@{product.image}">Image</div>
-                    <div class="col">
-                        <div class="row text-muted">[[${product.name}]]</div>
-                        <div class="row">Cotton T-shirt</div>
+                <th:block th:each="item,status : ${cartItems}">
+                    <div class="row border rounded" th:with="product = ${item.product}">
+                        <div class="col">
+                            <div>[[${status.count}]]</div>
+                            <div>Remove icon</div>
+                        </div>
+                        <div class="col">
+                            <img th:src="@{${product.image}}">
+                        </div>
+                        <div>
+                            <a>
+                                <b>[[${product.name}]]</b>
+                            </a>
+                        </div>
+                        <div>
+                            <input type="number" th:value="${item.quantity}" class="form-control">
+                        </div>
                     </div>
-                    <div class="col"><a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a></div>
-                    <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                </div>
+                </th:block>
             </div>
-            <div class="row">
-                <div class="row main align-items-center">
-                    <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"></div>
-                    <div class="col">
-                        <div class="row text-muted">Shirt</div>
-                        <div class="row">Cotton T-shirt</div>
-                    </div>
-                    <div class="col"><a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a></div>
-                    <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                </div>
-            </div>
-            <div class="row border-top border-bottom">
-                <div class="row main align-items-center">
-                    <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                    <div class="col">
-                        <div class="row text-muted">Shirt</div>
-                        <div class="row">Cotton T-shirt</div>
-                    </div>
-                    <div class="col"><a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a></div>
-                    <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                </div>
-            </div>
-            <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+
         </div>
-        <div class="col-md-4 summary">
-            <div>
-                <h5><b>Summary</b></h5>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col" style="padding-left:0;">ITEMS 3</div>
-                <div class="col text-right">&euro; 132.00</div>
-            </div>
-            <form>
-                <p>SHIPPING</p> <select>
-                <option class="text-muted">Standard-Delivery- &euro;5.00</option>
-            </select>
-                <p>GIVE CODE</p> <input id="code" placeholder="Enter your code">
-            </form>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">TOTAL PRICE</div>
-                <div class="col text-right">&euro; 137.00</div>
-            </div>
-            <button class="btn">CHECKOUT</button>
-        </div>
-    </div>
-</div>
-<div th:insert="user/fragments :: upper-footer"></div>
-<div th:insert="user/fragments :: footer"></div>
-<div th:insert="user/fragments :: gototop"></div>
+        <div th:insert="user/fragments :: upper-footer"></div>
+        <div th:insert="user/fragments :: footer"></div>
+        <div th:insert="user/fragments :: gototop"></div>
 </body>
 </html>

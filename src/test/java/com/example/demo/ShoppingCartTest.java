@@ -25,25 +25,25 @@ public class ShoppingCartTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-//    @Test
-//    public void testAddCart() {
-//        product Product = testEntityManager.find(product.class, 2);
-//        User user = testEntityManager.find(User.class,68);
-//
-//        CartItem cartItem = new CartItem();
-//        cartItem.setProduct(Product);
-//        cartItem.setUser(user);
-//        cartItem.setQuantity(2);
-//
-//        CartItem saved = cartRepository.save(cartItem);
-//
-//        Assertions.assertTrue(saved.getId() > 0);
-//    }
-//
+    @Test
+    public void testAddCart() {
+        product Product = testEntityManager.find(product.class, 3);
+        User user = testEntityManager.find(User.class,98);
+
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(Product);
+        cartItem.setUser(user);
+        cartItem.setQuantity(2);
+
+        CartItem saved = cartRepository.save(cartItem);
+
+        Assertions.assertTrue(saved.getId() > 0);
+    }
+
 //    @Test
 //    public void GetCartItembyUser(){
 //        User user = new User();
-//        user.setId(68);
+//        user.setId(98);
 //        List<CartItem> cartItemList = cartRepository.findByUser(user);
 //        Assertions.assertEquals(3,cartItemList.size());
 //    }

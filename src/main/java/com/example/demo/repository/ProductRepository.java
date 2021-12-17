@@ -10,7 +10,7 @@ import com.example.demo.entity.product;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<product, Long> {
+public interface ProductRepository extends JpaRepository<product, Integer> {
     @Query("SELECT u from product u where u.name = :name ")
     product findByNameProduct(String name);
 

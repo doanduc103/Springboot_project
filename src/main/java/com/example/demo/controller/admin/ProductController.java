@@ -107,7 +107,7 @@ public class ProductController {
     }
 
     @GetMapping("/trang-chu/edit-san-pham/{id}")
-    public String UpdateProduct(Model model, productDTO productDTO, @PathVariable(name = "id") Long id) {
+    public String UpdateProduct(Model model, productDTO productDTO, @PathVariable(name = "id") Integer id) {
         Optional<product> EditProduct = productRepository.findById(id);
         if (EditProduct.isPresent()) {
             model.addAttribute("productDTO", EditProduct);
@@ -119,7 +119,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/trang-chu/xoa-san-pham/{id}")
-    public String DeleteProduct(@PathVariable Long id, Model model) throws IOException {
+    public String DeleteProduct(@PathVariable Integer id, Model model) throws IOException {
         product product = productService.getProductById(id);
         File file = new File("Product_Image/" + product.getId());
         FileUtils.deleteDirectory(file);
