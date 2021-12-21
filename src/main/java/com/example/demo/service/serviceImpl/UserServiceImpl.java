@@ -209,11 +209,9 @@ public class UserServiceImpl implements UserService {
 //
     @Override
     public User GetCurrentlyLogged(@AuthenticationPrincipal Authentication authentication) {
-        if (authentication == null) return null;
 
-        User user = new User();
-        Object principal = authentication.getPrincipal();
-        System.out.println(principal);
+        User user = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails) {
             user = ((CustomUserDetails) principal).getUser();
         } else if (principal instanceof CustomOauth2User) {
@@ -242,13 +240,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-            if (authentication.isAuthenticated()) {
-                UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
-                return (User) authenticationToken.getPrincipal();
-            }
+            public User getCurrentUser() {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if (authentication instanceof UsernamePasswordAuthenticationToken) {
+                    if (authentication.isAuthenticated()) {
+                        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
+                        return (User) authenticationToken.getPrincipal();
+                    }
         }
         throw new BadCredentialsException(MessageCodes.SESSION_EXPIRED);
     }

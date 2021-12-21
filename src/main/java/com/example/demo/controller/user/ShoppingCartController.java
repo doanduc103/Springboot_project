@@ -29,17 +29,14 @@ public class ShoppingCartController {
         User user = userService.GetCurrentlyLogged(authentication);
         System.out.println(authentication);
         List<CartItem> cartItemList = cartRepository.findByUser(user);
-//        model.addAttribute("product", product);
         model.addAttribute("cartItems", cartItemList);
         model.addAttribute("PageTittle", "Shopping Cart");
         return "user/ShoppingCarts";
     }
 
-//    @GetMapping("/cart")
-//    public String cart(Model model) {
-//        List<CartItem> cartItems = cartRepository.findAll();
-//        System.out.println(cartItems);
-//        model.addAttribute("cart", cartItems);
-//        return "user/cart";
-//    }
+
+    @GetMapping("/quantity_control")
+    public String Cart() {
+        return "user/quantity_control";
+    }
 }

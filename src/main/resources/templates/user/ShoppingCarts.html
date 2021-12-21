@@ -18,46 +18,69 @@
 </head>
 <body>
 <div><span sec:authorize="isAuthenticated()">Hello</span> : <span sec:authentication="name"></span></div>
-<div class="card">
-    <div class="row">
-        <div class="col-md-8 cart">
-            <div class="title">
-                <div class="row">
-                    <div class="col">
-                        <ul style="list-style: none; display: flex">
-                            <li style="padding: 10px"><h4><b><a th:href="@{/index}">Trang chủ</a></b></h4></li>
-                            <li style="padding: 10px"><h4><b>|</b></h4></li>
-                            <li style="padding: 10px"><h4><b>Shopping Cart</b></h4></li>
-                        </ul>
+<!--<div class="card">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-8 cart">-->
+<!--            <div class="title">-->
+<!--                <div class="row">-->
+<!--                    <div class="col">-->
+<!--                        <ul style="list-style: none; display: flex">-->
+<!--                            <li style="padding: 10px"><h4><b><a th:href="@{/index}">Trang chủ</a></b></h4></li>-->
+<!--                            <li style="padding: 10px"><h4><b>|</b></h4></li>-->
+<!--                            <li style="padding: 10px"><h4><b>Shopping Cart</b></h4></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<div class="row m-1">
+    <div class="col-sm-8">
+        <th:block th:each="item,status : ${cartItems}">
+            <div class="row border rounded" th:with="product = ${item.product}">
+                <div class="col-1">
+                    <div>[[${status.count}]]</div>
+                    <div><a class="fas fa-trash icon-dark" th:href="@{/}"></a></div>
+                </div>
+                <div class="col-3">
+                    <img th:src="@{${product.image}}">
+                </div>
+                <div class="col-6">
+                    <a>
+                        <b>[[${product.name}]]</b>
+                    </a>
+                    <div>
+                        <div th:replace="quantity_control :: quantity_control(${item.quantity}, ${item.product})">
+                            Quantity
+                        </div>
                     </div>
-                    <div class="col align-self-center text-right text-muted">3 items</div>
+                    <div>
+                        <span>X</span>
+                        <span>[[${product.product_price}]]</span>
+                    </div>
+                    <div>
+                        <span> = </span>
+                        <span>[Subtotal]<span>
+                    </div>
                 </div>
             </div>
-            <div class="row border-top border-bottom">
-                <th:block th:each="item,status : ${cartItems}">
-                    <div class="row border rounded" th:with="product = ${item.product}">
-                        <div class="col">
-                            <div>[[${status.count}]]</div>
-                            <div>Remove icon</div>
-                        </div>
-                        <div class="col">
-                            <img th:src="@{${product.image}}">
-                        </div>
-                        <div>
-                            <a>
-                                <b>[[${product.name}]]</b>
-                            </a>
-                        </div>
-                        <div>
-                            <input type="number" th:value="${item.quantity}" class="form-control">
-                        </div>
-                    </div>
-                </th:block>
-            </div>
-
+        </th:block>
+    </div>
+    <div class="col-sm-4" th:unless="${#lists.isEmpty(cartItems)}">
+        <div>
+            <span class="h3">Total</span>
         </div>
-        <div th:insert="user/fragments :: upper-footer"></div>
-        <div th:insert="user/fragments :: footer"></div>
-        <div th:insert="user/fragments :: gototop"></div>
+        <div class="mt-2">
+            <span class="h2">[Total Amoun]</span>
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-danger p-3 mt-2">Check out</button>
+        </div>
+    </div>
+</div>
+<div th:if="${#lists.isEmpty(cartItems)}">
+    <h3>You have chosen any products yet.</h3>
+</div>
+<!--<div th:insert="user/fragments :: upper-footer"></div>-->
+<!--<div th:insert="user/fragments :: footer"></div>-->
+<!--<div th:insert="user/fragments :: gototop"></div>-->
 </body>
 </html>
