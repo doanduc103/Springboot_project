@@ -56,19 +56,19 @@ public class product {
     }
 
     @Transient
-    public String getExtraImagePath() {
+    public String getExtraImage() {
         if (extraImage == null || id == null) return null;
         return "/Product_Image/" + id + "/" + extraImage;
     }
 
     @Transient
-    public String getExtraImagePath2() {
+    public String getExtraImage2() {
         if (extraImage2 == null || id == null) return null;
         return "/Product_Image/" + id + "/" + extraImage2;
     }
 
     @Transient
-    public String getExtraImagePath3() {
+    public String getExtraImage3() {
         if (extraImage3 == null || id == null) return null;
         return "/Product_Image/" + id + "/" + extraImage3;
     }

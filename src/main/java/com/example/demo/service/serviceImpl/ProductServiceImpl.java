@@ -6,7 +6,6 @@ import java.util.Optional;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.dto.productDTO;
 import com.example.demo.model.mapper.ProductMapper;
-import javassist.bytecode.DuplicateMemberException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,36 +31,30 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public product createProduct(productDTO productDTO) {
 //        product product = productRepository.findByNameProduct(productDTO.getName());
-
-        product product = ProductMapper.toProduct(productDTO);
+        product product = new product();
+        product = ProductMapper.toProduct(productDTO, product);
         productRepository.save(product);
         return product;
     }
 
     @Override
-    public productDTO UpdateProduct(productDTO productDTO, Integer id) {
-        List<product> products = productRepository.findAll();
-        for (product product : products) {
-            if (!product.getName().equals(productDTO.getName())) {
-                for (product product1 : products) {
-                    if (product1.getName().equals(productDTO.getName())) {
-                        try {
-                            throw new DuplicateMemberException("Tên product đã tồn tại");
-                        } catch (DuplicateMemberException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                product.setName(productDTO.getName());
-            }
-            product.setImage(productDTO.getImage());
-            product.setQuantity(productDTO.getQuantity());
-            product.setExtraImage(productDTO.getExtraImageThumbnail());
-            product.setExtraImage2(productDTO.getExtraImageThumbnail2());
-            product.setExtraImage3(productDTO.getExtraImageThumbnail3());
-            return ProductMapper.toDto(product);
+    public productDTO UpdateProduct(Integer id, productDTO productDTO) {
+
+        Optional<product> rs = productRepository.findById(id);
+        if (rs.isPresent()) {
+            product product = rs.get();
+//            productDTO.setName(product.getName());
+//            productDTO.setDescription(product.getDescription());
+//            productDTO.setProduct_price(product.getProduct_price());
+//            productDTO.setCreateddate(new Timestamp(System.currentTimeMillis()));
+//            productDTO.setQuantity(product.getQuantity());
+//            productDTO.setImage(product.getImage());
+//            productDTO.setAvailable(true);
+//            return product;
+            return ProductMapper.toDto(product, productDTO);
+        } else {
+            return new productDTO();
         }
-        return productDTO;
     }
 
     @Override
@@ -90,6 +83,19 @@ public class ProductServiceImpl implements ProductService {
             return productRepository.SearchKeyword(keyword);
         }
         return productRepository.findAll();
+    }
+
+    @Override
+    public product UpdateImageProduct(Integer id, productDTO productDTO) {
+        Optional<product> rs = productRepository.findById(id);
+        if (!rs.isPresent()) {
+            throw new NotFoundException("Không tìm thấy ID sản phẩm");
+        }
+        product product = rs.get();
+        productDTO.setExtraImageThumbnails(product.getExtraImage());
+        productDTO.setExtraImageThumbnails2(product.getExtraImage2());
+        productDTO.setExtraImageThumbnails3(product.getExtraImage3());
+        return product;
     }
 
 }

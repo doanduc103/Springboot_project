@@ -13,7 +13,7 @@
 
 
 <span style=" font-size :3em  ; color: red" th:if="${msg}">Tạo sản phẩm không thành công</span>
-<form th:action="@{/trang-chu/tao-san-pham}" th:object="${productDTO}" method="POST" enctype="multipart/form-data">
+<form th:action="@{/trang-chu/tao-san-pham}" th:object="${productDTO}" method="GET" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}">
     <div class="form-group">
         <label class="col-md-4 control-label" for="name">Tên hàng hóa</label>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="user/fragments::html_head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div th:insert="user/fragments :: header"></div>
+<div th:insert="user/fragments :: header1"></div>
+<div th:insert="user/fragments :: header3"></div>
+
+<nav class="row" style="height: 980px">
+    <div class="col-md-2">
+        <a href="/"><h1>Trang chủ</h1></a>
+        <ul class="nav nav-pills " style="line-height: 180%; text-align: left; display: inline"
+            onmousemove="enableCursor()">
+            <li class="active"><a th:href="@{http://localhost:6789/all-product}">Tất cả sản phẩm</a></li>
+            <li><a href="#">Thời trang Nam áo khoác</a></li>
+            <li><a href="#">Thời trang Nam Quần dài</a></li>
+            <li><a href="#">Thời trang Nam phụ kiện</a></li>
+        </ul>
+    </div>
+    <div class="col-md-10">
+        <div class="row">
+            <div class="well">
+                <div style="display: flex; margin-left: 20px">
+                    <h4>Sắp xếp theo : </h4>
+
+                    <div style="margin-left: 20px">
+
+                        <a href="#"><h4>Bán chạy</h4></a>
+                    </div>
+                    <div style="margin-left: 20px">
+                        <a href="#"><h4>Mới nhất</h4></a>
+                    </div>
+                    <div style="margin-left: 20px">
+                        <select>
+                            <option><h4>Giá</h4></option>
+                            <option><h4>Từ thấp đến cao</h4></option>
+                            <option><h4>Từ cao đến thấp</h4></option>
+                        </select>
+                    </div>
+                    <div style="margin-left: 50px">
+                        <span>Total Page</span>
+                    </div>
+                    <div style="margin-left: 20px">
+                        <button>Previous</button>
+                        <button>Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-sm-3" th:each="product : ${products}" th:id="${product.id}">
+                <div class="well" style="height: 210px; flex-direction: column">
+                    <div class="img-responsive">
+                        <img th:src="@{${product.image}}" width="140px" height="120px"
+                             style="display: block; margin-left: auto; margin-right: auto;">
+                    </div>
+                    <div style=" text-align: center">
+                        <span th:text="${product.name}"
+                              style="font-size: medium;
+                              font-family: 'Times New Roman';"></span>
+                    </div>
+                    <div style="text-align: center">
+                        <a th:href="@{/product/{id}}" th:id="${product.id}">
+                            <span style="color: red;">Chi tiết</span></a>
+                    </div>
+                    <div style="text-align: center">
+                        <span th:text="${product.product_price}"
+                        >Giá bán : </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div th:insert="user/fragments :: upper-footer"></div>
+<div th:insert="user/fragments :: footer"></div>
+<div th:insert="user/fragments :: gototop"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

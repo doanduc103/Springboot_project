@@ -2,14 +2,11 @@ package com.example.demo.controller.admin;
 
 import com.example.demo.entity.FileUploadUtil;
 import com.example.demo.entity.product;
-import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.dto.productDTO;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,24 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,22 +55,20 @@ public class ProductController {
     @PostMapping("/trang-chu/tao-san-pham")
     public String CreateProduct(@Valid productDTO productDTO, BindingResult br,
                                 Model model,
-//                                @RequestParam("mainImage") MultipartFile multipartFile,
                                 @RequestParam("extraImage") MultipartFile[] extraImageFiles) throws IOException {
-//        String mainImage = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-//        productDTO.setImage(mainImage);
+
 
         int count = 0;
         for (MultipartFile extraImagefile : extraImageFiles) {
             String extraImageName = StringUtils.cleanPath(extraImagefile.getOriginalFilename());
             if (count == 0) {
-                productDTO.setExtraImageThumbnail(extraImageName);
+                productDTO.setExtraImageThumbnails(extraImageName);
             }
             if (count == 1) {
-                productDTO.setExtraImageThumbnail2(extraImageName);
+                productDTO.setExtraImageThumbnails2(extraImageName);
             }
             if (count == 2) {
-                productDTO.setExtraImageThumbnail3(extraImageName);
+                productDTO.setExtraImageThumbnails3(extraImageName);
             }
             if (count == 3) {
                 productDTO.setImage(extraImageName);
@@ -107,13 +90,24 @@ public class ProductController {
     }
 
     @GetMapping("/trang-chu/edit-san-pham/{id}")
-    public String UpdateProduct(Model model, productDTO productDTO, @PathVariable(name = "id") Integer id) {
-        Optional<product> EditProduct = productRepository.findById(id);
-        if (EditProduct.isPresent()) {
-            model.addAttribute("productDTO", EditProduct);
-        } else {
-            model.addAttribute("productDTO", productDTO);
+    public String UpdateProduct(Model model,
+                                productDTO productDTO,
+                                @PathVariable(name = "id") Integer id) throws IOException {
+        try {
+            productService.UpdateProduct(id,productDTO);
+            model.addAttribute("PageTittle","Update Product " + id );
+        } catch (Exception e) {
+            model.addAttribute("UpdateError","Update Product không thành công");
+            return "redirect:/trang-chu/ao-clothes/0";
+
         }
+        return "admin/tao-san-pham";
+    }
+
+
+    @GetMapping("/trang-chu/edit-san-pham/image/{id}")
+    public String UpdateImageProduct(@PathVariable("id") Integer id, productDTO productDTO,Model model) {
+        productService.UpdateImageProduct(id, productDTO);
         return "admin/tao-san-pham";
     }
 
@@ -121,12 +115,15 @@ public class ProductController {
     @GetMapping("/trang-chu/xoa-san-pham/{id}")
     public String DeleteProduct(@PathVariable Integer id, Model model) throws IOException {
         product product = productService.getProductById(id);
+        model.addAttribute("msDelete", "Xóa sản phẩm với " + id + "thành công" );
         File file = new File("Product_Image/" + product.getId());
-        FileUtils.deleteDirectory(file);
-        if (file.delete()) {
-            model.addAttribute("Xóa folder thành công", "msgDelete");
-        } else {
-            model.addAttribute("Xóa folder không thành công", "errorMsg");
+        if (file.exists() & !file.isFile()) {
+            FileUtils.deleteDirectory(file);
+            if (file.delete()) {
+                model.addAttribute("Xóa folder thành công", "msgDelete");
+            } else {
+                model.addAttribute("Xóa folder không thành công", "errorMsg");
+            }
         }
         productService.DeleteProduct(id);
         return "redirect:/trang-chu/ao-clothes/0";

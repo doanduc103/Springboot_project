@@ -15,13 +15,19 @@
             <button>Thêm</button>
         </a>
 
+        <span th:if="${success}">Update sản phẩm thành công</span>
+        <span style=" font-size :3em  ; color: red" th:if="${UpdateError}">Update Product không thành công</span>
         <span th:if="${msgDelete}">Đã xóa sản phẩm thành công</span>
         <table border="1" align="center">
+
 
             <tr>
                 <td>ID</td>
                 <td>Name</td>
-                <td>Hình ảnh</td>
+                <td>Hình ảnh chính</td>
+                <td>Hình ảnh phụ 1</td>
+                <td>Hình ảnh phụ 2</td>
+                <td>Hình ảnh phụ 3</td>
                 <td>Description</td>
                 <td>Giá tiền</td>
                 <td>ngày nhập hàng</td>
@@ -34,21 +40,28 @@
                 <td><span th:text="${product.name}">Name</span></td>
                 <td><img th:src="@{${product.image}}" style="height: 120px; width: 120px" id="imgProduct"
                          alt="Ảnh chưa hiển thị được"></td>
+                <td><img th:src="@{${product.extraImage}}" style="height: 120px; width: 120px" id="imgProduct1"
+                         alt="Ảnh chưa hiển thị được"></td>
+
+                <td><img th:src="@{${product.extraImage2}}" style="height: 120px; width: 120px" id="imgProduct2"
+                         alt="Ảnh chưa hiển thị được"></td>
+                <td><img th:src="@{${product.extraImage3}}" style="height: 120px; width: 120px" id="imgProduct3"
+                         alt="Ảnh chưa hiển thị được"></td>
                 <td><span th:text="${product.description}">Description</span></td>
                 <td><span th:text="${product.product_price}">Giá tiền</span></td>
                 <td><span th:text="${product.createddate}">ngày nhập hàng</span></td>
                 <td><span th:text="${product.quantity}">Số lượng</span></td>
                 <td><span th:text="${product.isAvailable}">Còn hàng</span></td>
                 <td><a th:href="@{'/trang-chu/edit-san-pham/' + ${product.id}}">
-                    <button>Sửa</button>
+                    <button class="btn-info" value="Sửa"><span style="font-family: "Helvetica Neue", sans-serif">Sửa</span></button>
                 </a></td>
                 <td>
-<!--                    <button><a onclick="if (confirm('Do you want delete this product ?'))return true ; return false;"-->
-<!--                               th:href="@{'/trang-chu/xoa-san-pham/' + ${product.id}}">Xóa</a>-->
-<!--                    </button>-->
-                    <button><a onclick="return Xoa()"
-                               th:href="@{'/trang-chu/xoa-san-pham/' + ${product.id}}">Xóa</a>
+                    <a onclick="return Xoa()"
+                       th:href="@{'/trang-chu/xoa-san-pham/' + ${product.id}}">
+                        <button class="btn-danger" value="Xóa"><span style="font-family: "Courier New", Courier, monospace">Xóa</span>
                     </button>
+                    </a>
+
                 </td>
             </tr>
         </table>
@@ -98,10 +111,10 @@
 <script>
     function Xoa() {
         const question = confirm("Bạn có chắc chắn xóa sản phẩm này ?");
-        if (question== true) {
+        if (question == true) {
             alert("Bạn đã xóa sản phẩm này");
             return true;
-        } else  {
+        } else {
             alert("Hủy thao tác");
             return false;
         }

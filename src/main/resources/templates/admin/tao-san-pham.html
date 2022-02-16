@@ -11,13 +11,14 @@
 <div th:replace="admin/fragments_admin :: head_menu"></div>
 <!--<div th:replace="admin/fragments_admin :: side-bar"></div>-->
 
-[[${PageTittle}]]
+<!--[[${PageTittle}]]-->
 <span style=" font-size :3em  ; color: red" th:if="${msg}">Tạo sản phẩm không thành công</span>
 <span style=" font-size :3em  ; color: red" th:if="${success}">Tạo thành phẩm thành công</span>
 <!--<span style=" font-size :3em  ; color: red" th:if="${message}">Update sản phẩm thành công</span>-->
-<form action="#" th:action="@{/trang-chu/tao-san-pham}" th:object="${productDTO}" method="post" enctype="multipart/form-data">
+<form action="#" th:action="@{/trang-chu/tao-san-pham}" th:object="${productDTO}" method="post"
+      enctype="multipart/form-data">
 
-    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{id}" value="1"/>
     <div class="form-group">
         <label class="col-md-4 control-label" for="name">Tên hàng hóa</label>
         <input class="form-control" type="text" id="name" name="name" placeholder="Nhập tên hàng hóa"
@@ -26,76 +27,88 @@
     </div>
     <div class="form-group">
         <label class="col-md-4 custom-control-label" for="fileImage">Hình ảnh</label>
-        <p>
-            Main Image
-        </p>
-        <p>
+        <div>
+            <p>
+                Main Image
+            </p>
+            <img th:if="${productDTO.id != null}" th:src="@{${productDTO.image}}" width="120px" height="120px">
             <input class="form-control" type="file" id="fileImage" name="extraImage"
                    accept="image/*">
-            <img id="extraImageThumbnail0" alt="Image Preview" style="width: 70px" height="70px">
-        </p>
-
-        <p>
-            Extra Image
-        </p>
-        <p>
-            <input class="form-control" type="file" id="fileImage1" name="extraImage"
-                   accept="image/*">
-            <img id="extraImageThumbnail1" alt="Image Preview" style="width: 70px" height="70px">
-        </p>
-        <p>
-            Extra Image
-        </p>
-        <p>
-            <input class="form-control" type="file" id="fileImage2" name="extraImage"
-                   accept="image/*">
-            <img id="extraImageThumbnail2" alt="Image Preview" style="width: 70px" height="70px">
-        </p>
-        <p>Extra Image</p>
-        <p>
-            <input class="form-control" type="file" id="fileImage3" name="extraImage"
-                   accept="image/*">
-            <img id="extraImageThumbnail3" alt="Image Preview" style="width: 70px" height="70px">
-        </p>
+            <img th:if="${productDTO.id == null}" id="extraImageThumbnail0" alt="Image Preview" style="width: 70px"
+                 height="70px">
+        </div>
+        <div>
+            <p>
+                Extra Image1
+            </p>
+            <p>
+                <img th:if="${productDTO.id != null}" th:src="@{${productDTO.getExtraImageThumbnails}}" width="120px" ,
+                     height="120px">
+                <input class="form-control" type="file" id="fileImage1" name="extraImage"
+                       accept="image/*">
+                <img th:if="${productDTO.id == null}" th:src="@{${productDTO.getExtraImageThumbnails}}"
+                     id="extraImageThumbnail1"
+                     alt="Image Preview" style="width: 70px" height="70px">
+            </p>
+        </div>
+        <div>
+            <p>
+                Extra Image2
+            </p>
+            <p>
+                <img th:if="${productDTO.id != null}" th:src="@{${productDTO.extraImageThumbnails2}}">
+                <input class="form-control" type="file" id="fileImage2" name="extraImage"
+                       accept="image/*">
+                <img th:if="${productDTO.id == null}" th:src="@{${productDTO.extraImageThumbnails2}}"
+                     id="extraImageThumbnail2" alt="Image Preview" style="width: 70px"
+                     height="70px">
+            </p>
+        </div>
+        <div>
+            <p>Extra Image 3</p>
+            <p>
+                <img th:if="${productDTO.id != null}" th:src="@{${productDTO.getExtraImageThumbnails3}}">
+                <input class="form-control" type="file" id="fileImage3" name="extraImage"
+                       accept="image/*">
+                <img th:if="${productDTO.id == null}" th:src="@{${productDTO.getExtraImageThumbnails3}}"
+                     id="extraImageThumbnail3" alt="Image Preview" style="width: 70px"
+                     height="70px">
+            </p>
+        </div>
 <!--        <div class="form-group">-->
 <!--            <label class="col-md-4 control-label" for="isAvailable">Tình trạng Product</label>-->
-<!--<th:block th:each="role : "></th:block>-->
-<!--            <input type="checkbox" id="isAvailable" name="isAvailable" th:value="*{isAvailable}">-->
+<!--            <input type="checkbox" id="isAvailable" name="isAvailable" th:field="*{isAvailable}">-->
+<!--            <div>-->
 
-<!--        </div>-->
-    </div>
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="description">Diễn giải mô tả</label>
-        <input class="form-control" type="text" id="description" name="description" placeholder="Nhập mô tả"
-               th:field="*{description}">
-        <span th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"></span>
-    </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="description">Diễn giải mô tả</label>
+            <input class="form-control" type="text" id="description" name="description" placeholder="Nhập mô tả"
+                   th:field="*{description}">
+            <span th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"></span>
+        </div>
 
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="product_price">Giá sản phẩm</label>
-        <input class="form-control" type="text" id="product_price" name="product_price"
-               placeholder="Nhập giá tiền sản phẩm"
-               th:field="*{product_price}">
-        <span th:if="${#fields.hasErrors('product_price')}" th:errorclass="error"
-              th:errors="*{product_price}"></span>
-    </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="product_price">Giá sản phẩm</label>
+            <input class="form-control" type="text" id="product_price" name="product_price"
+                   placeholder="Nhập giá tiền sản phẩm"
+                   th:field="*{product_price}">
+            <span th:if="${#fields.hasErrors('product_price')}" th:errorclass="error"
+                  th:errors="*{product_price}"></span>
+        </div>
 
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="quantity">Số lượng sản phẩm nhập</label>
-        <input class="form-control" type="number" id="quantity" name="quantity" placeholder="Nhập số lượng sản phẩm"
-               th:field="*{quantity}">
-        <span th:if="${#fields.hasErrors('quantity')}" th:errorclass="error" th:errors="*{quantity}"></span>
-    </div>
-    <div class="form-group">
-        <button id="add-product-button" class="btn-primary" type="submit">Save</button>
-        <button id="reset-product-button" class="btn-default" type="reset">Reset</button>
-        <a href="/trang-chu/ao-clothes/0"> <input type="button" class="btn-block" value="Thoát"></a>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="quantity">Số lượng sản phẩm nhập</label>
+            <input class="form-control" type="number" id="quantity" name="quantity" placeholder="Nhập số lượng sản phẩm"
+                   th:field="*{quantity}">
+            <span th:if="${#fields.hasErrors('quantity')}" th:errorclass="error" th:errors="*{quantity}"></span>
+        </div>
+        <div class="form-group">
+            <button id="add-product-button" class="btn-primary" type="submit">Save</button>
+            <a href="/trang-chu/ao-clothes/0"> <input type="button" class="btn-default" value="Thoát"></a>
 
-    </div>
-    <div class="form-group">
-    </div>
-    <div class="form-group">
-    </div>
+        </div>
 </form>
 
 <div th:replace="admin/fragments_admin :: admin_footer"></div>

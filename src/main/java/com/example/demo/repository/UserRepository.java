@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,4 +27,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query("select u from User u where concat(u.name,u.email) like %?1%")
 	public List<User> Search (String keyword);
+
+	@Query("select u from User  u where u.created_at= :create_at")
+	List<User> SearchByCreatedDate(@Param("create_at") Date date);
 }

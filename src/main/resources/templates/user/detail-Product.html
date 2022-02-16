@@ -14,6 +14,7 @@
 <div th:insert="user/fragments :: header1"></div>
 <div th:insert="user/fragments :: header3"></div>
 
+
 <div class="container mt-5 mb-5">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10">
@@ -22,13 +23,17 @@
                     <div class="col-md-6">
                         <div class="images p-3">
                             <div class="text-center p-4"><img id="main-image"
-                                                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzYUUvSHsUe0et_FJs2qxHmC1xjPdc17de6mM7q0gIoPj4EcIt70kTxLvasGZZe_HJCnc&usqp=CAU"
+                                                              th:src="@{${products.image}}"
                                                               width="250"/></div>
                             <div class="thumbnail text-center"><img onclick="change_image(this)"
-                                                                    src="https://hips.hearstapps.com/esq.h-cdn.co/assets/15/34/2560x1280/landscape-1440171856-gettyimages-162842214-1.jpg?resize=1200:*"
+                                                                    th:src="@{${products.extraImage}}"
                                                                     width="70">
                                 <img onclick="change_image(this)"
-                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzYUUvSHsUe0et_FJs2qxHmC1xjPdc17de6mM7q0gIoPj4EcIt70kTxLvasGZZe_HJCnc&usqp=CAU"
+                                     th:src="@{${products.extraImage2}}"
+                                     width="70">
+
+                                <img onclick="change_image(this)"
+                                     th:src="@{${products.extraImage3}}"
                                      width="70">
                             </div>
                         </div>
@@ -41,13 +46,12 @@
                                 <i class="fa fa-shopping-cart text-muted"></i>
                             </div>
                             <div class="mt-4 mb-3"><span class="text-uppercase text-muted brand">Orianz</span>
-                                <h5 class="text-uppercase">Men's slim fit t-shirt</h5>
+                                <h5 class="text-uppercase" th:text="${products.name}"></h5>
                                 <div class="price d-flex flex-row align-items-center"><span class="act-price">$20</span>
                                     <div class="ml-2"><small class="dis-price">$59</small> <span>40% OFF</span></div>
                                 </div>
                             </div>
-                            <p class="about">Shop from a wide range of t-shirt from orianz. Pefect for your everyday
-                                use, you could pair it with a stylish pair of jeans or trousers complete the look.</p>
+                            <p class="about" th:text="${products.description}"></p>
                             <div class="sizes mt-5">
                                 <h6 class="text-uppercase">Size</h6> <label class="radio"> <input type="radio"
                                                                                                   name="size" value="S"
@@ -66,6 +70,18 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <i class="fas fa-map-marker-alt">
+                    <p style="font-size: large">Quận Đống Đa - Hà Nội</p></i>
+                <i class="far fa-clock">
+                    <p style="font-size: large" th:text="${products.createddate}"></p></i>
+            </div>
+        </div>
+
+
+        <div>
+                        <span style="font-size: large" id="text-description" rows="10" cols="140"
+                              th:text="${products.description}"></span>
         </div>
     </div>
 </div>
@@ -76,16 +92,11 @@
 
 <script>
     function change_image(image) {
-
         var container = document.getElementById("main-image");
-
         container.src = image.src;
     }
 
-
     document.addEventListener("DOMContentLoaded", function (event) {
-
-
     });
 </script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

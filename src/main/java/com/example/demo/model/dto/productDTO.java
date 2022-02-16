@@ -13,13 +13,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class productDTO {
@@ -39,9 +40,9 @@ public class productDTO {
     @Range(min = 1, max = 500)
     public int quantity;
     public String image;
-    public String extraImageThumbnail;
-    public String extraImageThumbnail2;
-    public String extraImageThumbnail3;
+    public String extraImageThumbnails;
+    public String extraImageThumbnails2;
+    public String extraImageThumbnails3;
 
 
 }

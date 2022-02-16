@@ -41,14 +41,14 @@
                     <div><a class="fas fa-trash icon-dark" th:href="@{/}"></a></div>
                 </div>
                 <div class="col-3">
-                    <img th:src="@{${product.image}}">
+                    <img th:src="@{${product.image}}" width="140px" height="140px">
                 </div>
                 <div class="col-6">
                     <a>
                         <b>[[${product.name}]]</b>
                     </a>
                     <div>
-                        <div th:replace="quantity_control :: quantity_control(${item.quantity}, ${item.product})">
+                        <div th:replace="user/quantity_control :: quantity_control(${item.quantity}, ${item.product.id})">
                             Quantity
                         </div>
                     </div>
