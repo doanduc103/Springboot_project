@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <style>
+        .img-responsive :hover{
+
+        }
+    </style>
 </head>
 <body>
 <div th:insert="user/fragments :: header"></div>
@@ -55,8 +61,8 @@
             <div class="col-sm-3" th:each="product : ${products}" th:id="${product.id}">
                 <div class="well" style="height: 210px; flex-direction: column">
                     <div class="img-responsive">
-                        <img th:src="@{${product.image}}" width="140px" height="120px"
-                             style="display: block; margin-left: auto; margin-right: auto;">
+                        <a th:href="@{'/product/' + ${product.id}}" th:id="${product.id}"><img th:src="@{${product.image}}" width="140px" height="120px"
+                             style="display: block; margin-left: auto; margin-right: auto;"></a>
                     </div>
                     <div style=" text-align: center">
                         <span th:text="${product.name}"
@@ -64,7 +70,7 @@
                               font-family: 'Times New Roman';"></span>
                     </div>
                     <div style="text-align: center">
-                        <a th:href="@{/product/{id}}" th:id="${product.id}">
+                        <a th:href="@{'/product/' + ${product.id}}" th:id="${product.id}">
                             <span style="color: red;">Chi tiết</span></a>
                     </div>
                     <div style="text-align: center">
@@ -76,7 +82,31 @@
         </div>
     </div>
 </nav>
-
+<nav aria-label="Page navigation example">
+    <ul class="pagination" style="align-items: center">
+        <li class="page-item"><span>Total item : [[${TotalItems}]]</span></li>
+        <li style="padding-left: 10px" class="page-item">
+            <span>[[${currentPage}]] of [[${TotalPage}]]</span>
+        <li style="padding-left: 10px" th:if="${currentPage > 1}" class="page-item"><a class="page-link"
+                                                                                       th:href="@{'/all-product/0'}">First</a>
+        </li>
+        <li th:if="${currentPage != 0}" class="page-item"><a class="page-link"
+                                                             th:href="@{'/all-product/' + ${currentPage-1}}"
+                                                             href="#">Previous</a>
+        </li>
+        <li
+                th:each="i : ${#numbers.sequence(1,TotalPage)}" class="page-item"><a
+                class="page-link" th:href="@{'/all-product/' + ${i-1}}" href="#"><span
+                th:text="${i}"></span></a></li>
+        <li th:if="${currentPage + 1 != TotalPage} " class="page-item"><a
+                class="page-link"
+                th:href="@{'/all-product/' + ${currentPage + 1}}"
+                href="#">Next</a></li>
+        <li th:if="${currentPage < TotalPage}" class="page-item"><a class="page-link"
+                                                                    th:href="@{'/all-product/' + ${TotalPage-1}}">Last</a>
+        </li>
+    </ul>
+</nav>
 
 <div th:insert="user/fragments :: upper-footer"></div>
 <div th:insert="user/fragments :: footer"></div>

@@ -16,6 +16,8 @@ import com.example.demo.entity.product;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
 
+import javax.management.Query;
+
 @Component
 public class ProductServiceImpl implements ProductService {
 
@@ -97,5 +99,16 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setExtraImageThumbnails3(product.getExtraImage3());
         return product;
     }
+
+    @Override
+    public List<product> FindByName(String name) {
+        return productRepository.select4Product();
+    }
+
+    @Override
+    public List<product> FindByTop1Name(String name) {
+        return productRepository.selectTop1Product();
+    }
+
 
 }
