@@ -16,7 +16,7 @@
 <div th:insert="user/fragments :: header1"></div>
 <div th:insert="user/fragments :: header3"></div>
 
-<nav class="row" style="height: 980px">
+<nav class="row" style="height: 1080px">
     <div class="col-md-2">
         <a href="/"><h1>Trang chủ</h1></a>
         <ul class="nav nav-pills " style="line-height: 180%; text-align: left; display: inline"
@@ -38,30 +38,31 @@
                         <a href="#"><h4>Bán chạy</h4></a>
                     </div>
                     <div style="margin-left: 20px">
-                        <a href="#"><h4>Mới nhất</h4></a>
+                        <a th:href="@{/all-product/PriceDescending?page=0}"><h4>Mới nhất</h4></a>
                     </div>
                     <div style="margin-left: 20px">
-                        <select>
-                            <option><h4>Giá</h4></option>
-                            <option><h4>Từ thấp đến cao</h4></option>
-                            <option><h4>Từ cao đến thấp</h4></option>
+                        <select id="SelectOption" onchange="window.location.href = this.value">
+                            <option selected="selected"><h4>Giá</h4></option>
+                            <option value='/all-product/ascending?page=0' ><h4>Từ thấp đến cao</h4></option>
+                            <option value="/all-product/descending?page=0"><h4>Từ cao đến thấp</h4></option>
                         </select>
                     </div>
-                    <div style="margin-left: 50px">
-                        <span>Total Page</span>
-                    </div>
                     <div style="margin-left: 20px">
-                        <button>Previous</button>
-                        <button>Next</button>
+                        <form th:action="@{/all-product/search}"
+                        action="#" method="get" class="form-group">
+                            <input type="search" name="keyword" placeholder="Tên product, Giá product .....
+" class="glyphicon-search">
+                            <input type="submit" value="Tìm kiếm " class="btn-info">
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
-            <div class="col-sm-3" th:each="product : ${products}" th:id="${product.id}">
+            <div class="col-sm-3" th:each="product : ${products}" th:id="${product.id}" style="padding: 20px">
                 <div class="well" style="height: 210px; flex-direction: column">
                     <div class="img-responsive">
-                        <a th:href="@{'/product/' + ${product.id}}" th:id="${product.id}"><img th:src="@{${product.image}}" width="140px" height="120px"
+                        <a th:href="@{'/product/' + ${product.id}}" th:id="${product.id}"><img th:src="@{${product.image}}" width="160px" height="160px"
                              style="display: block; margin-left: auto; margin-right: auto;"></a>
                     </div>
                     <div style=" text-align: center">
@@ -82,7 +83,7 @@
         </div>
     </div>
 </nav>
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" style="justify-content: center;align-items: center">
     <ul class="pagination" style="align-items: center">
         <li class="page-item"><span>Total item : [[${TotalItems}]]</span></li>
         <li style="padding-left: 10px" class="page-item">
@@ -98,7 +99,7 @@
                 th:each="i : ${#numbers.sequence(1,TotalPage)}" class="page-item"><a
                 class="page-link" th:href="@{'/all-product/' + ${i-1}}" href="#"><span
                 th:text="${i}"></span></a></li>
-        <li th:if="${currentPage + 1 != TotalPage} " class="page-item"><a
+        <li th:if="${currentPage + 1 != TotalPage} " class="page-item" ><a
                 class="page-link"
                 th:href="@{'/all-product/' + ${currentPage + 1}}"
                 href="#">Next</a></li>
@@ -115,5 +116,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!--<script type="javascript">-->
+<!--    document.getElementById("SelectOption").addEventListener('change', function (){-->
+<!--    if(this.selectedIndex!==0){-->
+<!--        window.location.href = this.value;-->
+<!--    }-->
+<!--})-->
+
+
+</script>
 </body>
 </html>

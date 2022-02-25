@@ -30,4 +30,8 @@ public interface ProductService {
     List<product> FindByName(String name);
 
     List<product> FindByTop1Name(String name);
+
+    Page<product> findAllProductByPriceAscending (int page);
+
+    Page<product> SearchProductByAvailableAndCreatedDateAndPriceAndName(int page,String keyword);
 }

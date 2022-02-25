@@ -110,5 +110,15 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.selectTop1Product();
     }
 
+    @Override
+    public Page<product> findAllProductByPriceAscending(int page) {
+        Pageable requestPage = PageRequest.of(page, 16);
+        return productRepository.findAllProductByPriceAscending(requestPage);
+    }
 
+    @Override
+    public Page<product> SearchProductByAvailableAndCreatedDateAndPriceAndName(int page,String keyword) {
+        Pageable requestPage = PageRequest.of(page, 16);
+        return productRepository.SearchProductByAvailableAndCreatedDateAndPriceAndName(requestPage,keyword);
+    }
 }

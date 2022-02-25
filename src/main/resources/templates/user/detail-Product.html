@@ -7,7 +7,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 </head>
 <body>
 <div th:insert="user/fragments :: header"></div>
@@ -23,17 +23,17 @@
                     <div class="col-md-6">
                         <div class="images p-3">
                             <div class="text-center p-4"><img id="main-image"
-                                                              th:src="@{${products.image}}"
+                                                              th:src="@{${product.image}}"
                                                               width="250"/></div>
                             <div class="thumbnail text-center"><img onclick="change_image(this)"
-                                                                    th:src="@{${products.extraImage}}"
+                                                                    th:src="@{${product.extraImage}}"
                                                                     width="70">
                                 <img onclick="change_image(this)"
-                                     th:src="@{${products.extraImage2}}"
+                                     th:src="@{${product.extraImage2}}"
                                      width="70">
 
                                 <img onclick="change_image(this)"
-                                     th:src="@{${products.extraImage3}}"
+                                     th:src="@{${product.extraImage3}}"
                                      width="70">
                             </div>
                         </div>
@@ -42,16 +42,20 @@
                         <div class="product p-4">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center"><i class="fa fa-long-arrow-left"></i> <span
-                                        class="ml-1">Back</span></div>
+                                        th:if="${product.quantity == 0}"
+                                        class="ml-1">Hết hàng </span></div>
                                 <i class="fa fa-shopping-cart text-muted"></i>
                             </div>
                             <div class="mt-4 mb-3"><span class="text-uppercase text-muted brand">Orianz</span>
-                                <h5 class="text-uppercase" th:text="${products.name}"></h5>
+                                <h5 class="text-uppercase" th:text="${product.name}"></h5>
                                 <div class="price d-flex flex-row align-items-center"><span class="act-price">$20</span>
                                     <div class="ml-2"><small class="dis-price">$59</small> <span>40% OFF</span></div>
                                 </div>
                             </div>
-                            <p class="about" th:text="${products.description}"></p>
+                            <p class="about" th:text="${product.description}"></p>
+                            <div>
+                                <h6 class="text-dark">Số lượng hàng : [[${product.quantity}]] sản phẩm</h6>
+                            </div>
                             <div class="sizes mt-5">
                                 <h6 class="text-uppercase">Size</h6> <label class="radio"> <input type="radio"
                                                                                                   name="size" value="S"
@@ -63,49 +67,63 @@
                             </label> <label class="radio"> <input type="radio" name="size" value="XXL"> <span>XXL</span>
                             </label>
                             </div>
-                            <div class="cart mt-4 align-items-center">
-                                <button class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button>
-                                <i class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i></div>
+                            <div>
+                                <div th:replace="user/quantity_control :: quantity_control(1, ${product.id})">
+                                </div>
+                                <div class="cart mt-4 align-items-center">
+                                    <button class="btn btn-danger text-uppercase mr-2 px-4"
+                                            id="buttonAdd2Cart">Add to cart</button>
+                                    <i class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <i class="fas fa-map-marker-alt">
+                        <p style="font-size: large">Quận Đống Đa - Hà Nội</p></i>
+                    <i class="far fa-clock">
+                        <p style="font-size: large" th:text="${product.createddate}"></p></i>
+                </div>
             </div>
+
+
             <div>
-                <i class="fas fa-map-marker-alt">
-                    <p style="font-size: large">Quận Đống Đa - Hà Nội</p></i>
-                <i class="far fa-clock">
-                    <p style="font-size: large" th:text="${products.createddate}"></p></i>
-            </div>
-        </div>
-
-
-        <div>
                         <span style="font-size: large" id="text-description" rows="10" cols="140"
-                              th:text="${products.description}"></span>
+                              th:text="${product.description}"></span>
+            </div>
         </div>
     </div>
 </div>
 
-<div th:insert="user/fragments :: upper-footer"></div>
-<div th:insert="user/fragments :: footer"></div>
-<div th:insert="user/fragments :: gototop"></div>
+<div th:replace="user/fragments :: standard_modal">Standard Modal Dialog</div>
 
-<script>
-    function change_image(image) {
-        var container = document.getElementById("main-image");
-        container.src = image.src;
-    }
+    <div th:insert="user/fragments :: upper-footer"></div>
+    <div th:insert="user/fragments :: footer"></div>
+    <div th:insert="user/fragments :: gototop"></div>
 
-    document.addEventListener("DOMContentLoaded", function (event) {
-    });
-</script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" th:src="@{/js/jquery.stellar.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.waypoints.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
-<script type="text/javascript" th:src="@{/js/modernizr-3.5.0.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script>
+        function change_image(image) {
+            var container = document.getElementById("main-image");
+            container.src = image.src;
+        }
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js">
+        <script type="text/javascript" th:src="@{/js/jquery.stellar.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.waypoints.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modernizr-3.5.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/quantity_control.js}"></script>
+<script th:src="@{/js/add-to-cart.js}"></script>
+
 </body>
 </html>

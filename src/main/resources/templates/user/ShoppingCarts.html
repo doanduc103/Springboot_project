@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:fragment="html_head">
+<head th:replace="user/fragments::html_head">
     <meta charset="UTF-8">
-    <title th:fragment="clothes">StreetWear clothes</title>
-    <link th:href="@{/css/animate.css}" rel="stylesheet">
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-    <link th:href="@{/css/bootstrap.css.map}">
-    <link th:href="@{/css/media_query.css}" rel="stylesheet">
-    <link th:href="@{/css/owl.theme.default.css}" rel="stylesheet">
-    <link th:href="@{/css/style_1.css}" rel="stylesheet">
-    <link th:href="@{/css/owl.carousel.css}" rel="stylesheet">
+    <title>StreetWear clothes</title>
+
     <link th:href="@{/css/shoppingCarts.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
@@ -32,6 +26,11 @@
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
+
+<div th:insert="user/fragments :: header"></div>
+<div th:insert="user/fragments :: header3"></div>
+
+
 <div class="row m-1">
     <div class="col-sm-8">
         <th:block th:each="item,status : ${cartItems}">
@@ -44,7 +43,7 @@
                     <img th:src="@{${product.image}}" width="140px" height="140px">
                 </div>
                 <div class="col-6">
-                    <a>
+                    <a th:href="@{'/product/' + ${product.id}}" th:title="${product.name}" target="_blank">
                         <b>[[${product.name}]]</b>
                     </a>
                     <div>
@@ -58,7 +57,7 @@
                     </div>
                     <div>
                         <span> = </span>
-                        <span>[Subtotal]<span>
+                        <span>[Subtotal]</span>
                     </div>
                 </div>
             </div>
@@ -79,8 +78,8 @@
 <div th:if="${#lists.isEmpty(cartItems)}">
     <h3>You have chosen any products yet.</h3>
 </div>
-<!--<div th:insert="user/fragments :: upper-footer"></div>-->
-<!--<div th:insert="user/fragments :: footer"></div>-->
-<!--<div th:insert="user/fragments :: gototop"></div>-->
+<div th:insert="user/fragments :: upper-footer"></div>
+<div th:insert="user/fragments :: footer"></div>
+<div th:insert="user/fragments :: gototop"></div>
 </body>
 </html>

@@ -12,4 +12,5 @@ public interface ShoppingCartService  {
     List<CartItem> getListCartItem(User user);
 
 
+    public Integer addProduct(Integer quantity, Integer productId, User user);
 }

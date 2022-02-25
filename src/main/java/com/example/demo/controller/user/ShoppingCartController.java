@@ -31,6 +31,7 @@ public class ShoppingCartController {
         List<CartItem> cartItemList = cartRepository.findByUser(user);
         model.addAttribute("cartItems", cartItemList);
         model.addAttribute("PageTittle", "Shopping Cart");
+        model.addAttribute("product",product);
         return "user/ShoppingCarts";
     }
 
