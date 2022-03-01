@@ -27,7 +27,6 @@ public class ShoppingCartController {
     @GetMapping("/tai-khoan/shopping-carts")
     public String ShoppingCarts(@AuthenticationPrincipal Authentication authentication, Model model, product product) {
         User user = userService.GetCurrentlyLogged(authentication);
-        System.out.println(authentication);
         List<CartItem> cartItemList = cartRepository.findByUser(user);
         model.addAttribute("cartItems", cartItemList);
         model.addAttribute("PageTittle", "Shopping Cart");

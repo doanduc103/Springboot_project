@@ -27,8 +27,8 @@ public class ShoppingCartTest {
 
     @Test
     public void testAddCart() {
-        product Product = testEntityManager.find(product.class, 3);
-        User user = testEntityManager.find(User.class,98);
+        product Product = testEntityManager.find(product.class, 66);
+        User user = testEntityManager.find(User.class,103);
 
         CartItem cartItem = new CartItem();
         cartItem.setProduct(Product);

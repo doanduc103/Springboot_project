@@ -20,20 +20,36 @@ public class ShoppingCartRestController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/cart/add/{pid}/{qty}")
+    @PostMapping("product/cart/add/{pid}/{qty}")
     public String addProductToCart(@PathVariable("pid") Integer productId,
                                    @PathVariable("qty") Integer quantity,
                                    @AuthenticationPrincipal Authentication authentication) {
-
-        System.out.println("addproduct" + productId +  "-" + quantity);
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-            return "Bạn phải đăng nhập !!..";
-        }
+        System.out.println("addproduct " + productId +  "-" + quantity);
         User user = userService.GetCurrentlyLogged(authentication);
+        System.out.println(user);
+        if(user == null){
+            return "Bạn phải đăng nhập để thêm vào giỏ hàng";
+        }
 
         Integer addedCartItem = shoppingCartService.addProduct(productId,quantity,user);
 
-        System.out.println("added");
+        System.out.println("added" + addedCartItem);
         return addedCartItem + "Sản phẩm đã được thêm vào giỏ hàng của bạn";
+    }
+
+    @PostMapping("tai-khoan/cart/update/{pid}/{qty}")
+    public String UpdateQuantity(@PathVariable("pid") Integer productId,
+                                   @PathVariable("qty") Integer quantity,
+                                   @AuthenticationPrincipal Authentication authentication) {
+        System.out.println("addproduct " + productId +  "-" + quantity);
+        User user = userService.GetCurrentlyLogged(authentication);
+        System.out.println(user);
+        if(user == null){
+            return "Bạn phải đăng nhập để thêm vào giỏ hàng";
+        }
+
+        float subtotal = shoppingCartService.UpdateQuantity(productId,quantity,user);
+
+        return String.valueOf(subtotal);
     }
 }

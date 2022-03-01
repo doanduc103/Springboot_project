@@ -4,29 +4,30 @@ $(document).ready(function () {
     })
 })
 
-var productId = "[[${product.id}]]";
 var contextPath = "[[@{/}]]";
 var crsfHeaderName = "[[${_csrf.headerName}]]";
 var csrfValue = "[[${_csrf.token}]]";
 
 function addToCart() {
-   var quantity = $("#quantity" + productId).val();
+    const quantity = $("#quantity" + productId).val();
 
-    url = contextPath + "cart/add/" + productId + "/" + quantity;
+    url = "cart/add/" + productId + "/" + quantity;
 
     $.ajax({
         type: "POST",
         url: url,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(crsfHeaderName, csrfValue);
-        }
+        // beforeSend: function (xhr) {
+        //     xhr.setRequestHeader(crsfHeaderName, csrfValue);
+        // }
     }).done(function (response) {
-        $("#modalTitle").text("Shopping Card");
-        $("#modalBody").text(response);
-        $("#myModal").modal();
+        // $("#modalTitle").text("Shopping Card");
+        // $("#modalBody").text(response);
+        // $("#myModal").modal();
+        alert('Ok');
     }).fail(function () {
-        $("#modalTitle").text("Shopping Card");
-        $("#modalBody").text("Có lỗi khi thêm vào giỏ hàng.");
-        $("#modalBody").modal();
+        // $("#modalTitle").text("Shopping Card");
+        // $("#modalBody").text("Có lỗi khi thêm vào giỏ hàng.");
+        // $("#myModal").modal();
+        alert('error');
     });
 }

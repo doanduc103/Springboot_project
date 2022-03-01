@@ -134,6 +134,6 @@ public class ProductController {
         List<product> products = productService.Search(keyword);
         model.addAttribute("listProduct", products);
         model.addAttribute("keyword", keyword);
-        return "user/search_result";
+        return "admin/search_result";
     }
 }

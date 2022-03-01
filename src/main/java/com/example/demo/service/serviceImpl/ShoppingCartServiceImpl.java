@@ -8,10 +8,12 @@ import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Transactional
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Autowired
@@ -42,5 +44,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
         cartRepository.save(cartItem);
         return addedQuantity;
+    }
+
+    @Override
+    public float UpdateQuantity(Integer productId, Integer quantity, User user) {
+        System.out.println(quantity + "-" + productId + "-" + user.getId());
+        cartRepository.updateQuantity(productId,quantity,user.getId());
+        product product = productRepository.getById(productId);
+        float subtotal = product.getProduct_price() * quantity;
+        return subtotal;
     }
 }

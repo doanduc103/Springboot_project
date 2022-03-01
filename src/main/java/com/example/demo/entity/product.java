@@ -67,7 +67,7 @@ public class product {
     @Column(name = "isAvailable")
     public boolean isAvailable;
     @Column(name = "product_price")
-    public String product_price;
+    public Integer product_price;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "createddate")
     public Date createddate;

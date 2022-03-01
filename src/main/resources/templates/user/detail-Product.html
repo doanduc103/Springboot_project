@@ -7,7 +7,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"  />
+
 </head>
 <body>
 <div th:insert="user/fragments :: header"></div>
@@ -101,6 +102,12 @@
     <div th:insert="user/fragments :: upper-footer"></div>
     <div th:insert="user/fragments :: footer"></div>
     <div th:insert="user/fragments :: gototop"></div>
+
+<script>
+    const productId = "[[${product.id}]]";
+
+</script>
+
 
     <script>
         function change_image(image) {

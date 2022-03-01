@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+
 @Entity
 @Table(name = "cart_items")
 @Getter
@@ -26,6 +27,12 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
     @Column(name = "quantity")
     private int quantity;
+
+    @Transient
+    public float getSubtotal() {
+        return this.product.getProduct_price() * quantity;
+    }
 }

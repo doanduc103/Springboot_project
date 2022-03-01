@@ -32,7 +32,7 @@ public class productDTO {
     public String name;
     @NotBlank(message = "Không được để trống")
     public String description;
-    public String product_price;
+    public Integer product_price;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     public boolean isAvailable;
     public Date createddate;

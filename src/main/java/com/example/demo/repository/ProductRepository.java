@@ -23,7 +23,7 @@ public interface ProductRepository extends JpaRepository<product, Integer> {
     @Query(value = "select * from product s order by s.product_price desc", nativeQuery = true)
     Page<product> findAllProductByPriceDescending(Pageable pageable);
 
-    @Query("SELECT p from product p where concat(p.name,p.product_price) like %?1%")
+    @Query("SELECT p from product p where p.name like %?1% and p.product_price = ?1")
     List<product> SearchKeyword(String keyword);
 
     @Query(value = "select top 4 * from product s order by s.createddate DESC", nativeQuery = true)
@@ -35,6 +35,7 @@ public interface ProductRepository extends JpaRepository<product, Integer> {
     @Query(value = "select * from product s order by s.product_price DESC ",nativeQuery = true)
     Page<product> FindAllProDuctByCreatedDate(Pageable pageable);
 
-    @Query(value = "select s from product s where s.isAvailable = true and concat(s.name,s.product_price) like %?1% ")
+    @Query(value = "select s from product s where s.isAvailable = true and " +
+            "s.product_price = ?1 and s.name like %?1% ",nativeQuery = true)
     Page<product> SearchProductByAvailableAndCreatedDateAndPriceAndName(Pageable pageable,String keyword);
 }
