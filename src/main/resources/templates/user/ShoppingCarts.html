@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
 <div><span sec:authorize="isAuthenticated()">Hello</span> : <span sec:authentication="name"></span></div>
@@ -34,10 +35,12 @@
 <div class="row m-1">
     <div class="col-sm-8">
         <th:block th:each="item,status : ${cartItems}">
-            <div class="row border rounded" th:with="product = ${item.product}">
+            <div class="row border rounded" th:with="product = ${item.product}" th:id="'row' + ${status.count}">
                 <div class="col-1">
                     <div>[[${status.count}]]</div>
-                    <div><a class="fas fa-trash icon-dark" th:href="@{/}"></a></div>
+                    <div>
+                        <a th:rowsNumber="${status.count}" th:href="@{'/tai-khoan/cart/remove/' + ${product.id}}" ><i style='font-size:24px' class='fas link-remove'>&#xf82a;</i></i></a>
+                    </div>
                 </div>
                 <div class="col-3">
                     <img th:src="@{${product.image}}" width="140px" height="140px">
@@ -57,7 +60,7 @@
                     </div>
                     <div>
                         <span> = </span>
-                        <span class="h4 productSubtotal">[[${item.subtotal}]]</span>
+                        <span th:id="'subtotal' + ${product.id}" class="h4 productSubtotal">[[${item.subtotal}]]</span>
                     </div>
                 </div>
             </div>

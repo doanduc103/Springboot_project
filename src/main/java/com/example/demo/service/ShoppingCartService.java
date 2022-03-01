@@ -15,4 +15,6 @@ public interface ShoppingCartService  {
     public Integer addProduct(Integer quantity, Integer productId, User user);
 
     public float UpdateQuantity(Integer productId, Integer quantity, User user);
+
+    public void removeProduct(Integer productId,User user);
 }
