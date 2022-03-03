@@ -242,6 +242,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteMultiUser(Integer[] id) {
+        userRepository.deleteMultiUser(Arrays.asList(id));
+    }
+
+    @Override
             public User getCurrentUser() {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 if (authentication instanceof UsernamePasswordAuthenticationToken) {
@@ -252,5 +257,7 @@ public class UserServiceImpl implements UserService {
         }
         throw new BadCredentialsException(MessageCodes.SESSION_EXPIRED);
     }
+
+
 }
 

@@ -22,6 +22,7 @@
 
 
             <tr>
+                <td style="border: 0"><input type="checkbox" id="selectAll" name="selectAll"></td>
                 <td>ID</td>
                 <td>Name</td>
                 <td>Hình ảnh chính</td>
@@ -36,6 +37,7 @@
 
             </tr>
             <tr th:each="product : ${products}" th:id="${product.id}">
+                <td style="border: 0"><input type="checkbox" th:value="${product.id}" id="check-box"></td>
                 <td><span th:text="${product.id}">ID</span></td>
                 <td><span th:text="${product.name}">Name</span></td>
                 <td><img th:src="@{${product.image}}" style="height: 120px; width: 120px" id="imgProduct"
@@ -119,6 +121,14 @@
             return false;
         }
     }
+</script>
+
+<script>
+    $(document).ready(function (){
+        $("#selectAll").click(function () {
+            $(".checkboxAll").prop('checked', $(this).prop('checked'));
+        });
+    })
 </script>
 </body>
 </html>

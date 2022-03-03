@@ -12,7 +12,7 @@ public interface ShoppingCartService  {
     List<CartItem> getListCartItem(User user);
 
 
-    public Integer addProduct(Integer quantity, Integer productId, User user);
+    public Integer addProduct(Integer productId, Integer quantity, User user);
 
     public float UpdateQuantity(Integer productId, Integer quantity, User user);
 

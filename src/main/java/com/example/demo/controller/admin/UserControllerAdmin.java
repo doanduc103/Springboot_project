@@ -59,4 +59,10 @@ public class UserControllerAdmin {
         model.addAttribute("ListUserSearch", users);
         return "admin/user-search-result";
     }
+
+    @PostMapping("/trang-chu/delete-multiUser")
+    public String DeleteUser(@PathVariable("id") Integer[] id, User user) {
+        userService.deleteMultiUser(id);
+        return "redirect:/trang-chu/user-custom/0";
+    }
 }

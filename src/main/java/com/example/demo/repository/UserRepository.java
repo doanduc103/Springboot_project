@@ -17,17 +17,21 @@ import com.example.demo.entity.User;
 @EnableJpaRepositories
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	@Query( "SELECT u FROM User u WHERE u.email = :email")
-	User findByEmail(@Param("email") String email);
+    @Query("SELECT u FROM User u WHERE u.email = :email")
+    User findByEmail(@Param("email") String email);
 
-	List<Role> getUserRolesById(Long id);
+    List<Role> getUserRolesById(Long id);
 
-	@Query( "SELECT u FROM User u WHERE u.email= :email and u.password= :password")
-	public User FindUserByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+    @Query("SELECT u FROM User u WHERE u.email= :email and u.password= :password")
+    public User FindUserByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
-	@Query("select u from User u where concat(u.name,u.email) like %?1%")
-	public List<User> Search (String keyword);
+    @Query("select u from User u where concat(u.name,u.email) like %?1%")
+    public List<User> Search(String keyword);
 
-	@Query("select u from User  u where u.created_at= :create_at")
-	List<User> SearchByCreatedDate(@Param("create_at") Date date);
+    @Query("select u from User  u where u.created_at= :create_at")
+    List<User> SearchByCreatedDate(@Param("create_at") Date date);
+
+
+    @Query(value = "delete from User u where u.id in (?1)", nativeQuery = true)
+    User deleteMultiUser(List<Integer> id);
 }

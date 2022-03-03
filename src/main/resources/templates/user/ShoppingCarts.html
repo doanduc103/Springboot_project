@@ -39,7 +39,7 @@
                 <div class="col-1">
                     <div>[[${status.count}]]</div>
                     <div>
-                        <a th:rowsNumber="${status.count}" th:href="@{'/tai-khoan/cart/remove/' + ${product.id}}" ><i style='font-size:24px' class='fas link-remove'>&#xf82a;</i></i></a>
+                        <a th:href="@{'/product/delete/' + ${product.id}}"><i style='font-size:24px' class='fas link-remove'>&#xf82a;</i></a>
                     </div>
                 </div>
                 <div class="col-3">

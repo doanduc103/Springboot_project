@@ -29,7 +29,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
 
 
-    public Integer addProduct(Integer quantity, Integer productId, User user) {
+    public Integer addProduct(Integer productId, Integer quantity, User user) {
         Integer addedQuantity = quantity;
         product product = productRepository.getById(productId);
         CartItem cartItem = cartRepository.findByUserAndProduct(user, product);
